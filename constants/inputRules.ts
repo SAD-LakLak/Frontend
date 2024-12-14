@@ -10,3 +10,6 @@ export const passwordRules = [
     (value: string) =>
         value.length == 8 || 'رمز عبور باید 8 کاراکتر باشد',
 ];
+export const nameRules = [
+    (value: string) => !!value || 'نام شما نباید خالی باشد',
+];

@@ -1,15 +1,27 @@
 <script setup lang="ts">
 import Header from "~/components/Header.vue";
 import Footer from "~/components/Footer.vue";
-import {ref} from "vue";
-import {passwordRules, phoneRules} from "~/constants/inputRules";
+import {ref, computed} from 'vue';
+import {nameRules, passwordRules, phoneRules} from "~/constants/inputRules";
 import {password} from "iron-webcrypto";
-import themeColors from "~/constants/colors";
 
 const phoneNumber = ref("");
+const name = ref("");
+
 
 const password = ref('');
+const password2 = ref('');
 const showPassword = ref(false);
+
+const passwordRules = [
+  (v: any) => !!v || 'رمز عبور الزامی است',
+  (v: any) => v.length == 8 || 'رمز عبور باید 8 کاراکتر باشد'
+];
+
+const password2Rules = [
+  (v: any) => !!v || 'تکرار رمز عبور الزامی است',
+  (v: any) => v === password.value || 'رمز عبور و تکرار آن باید یکسان باشند'
+];
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
 };
@@ -27,7 +39,19 @@ const togglePasswordVisibility = () => {
         <img src="public/formPattern.png" class="rounded-tl-2xl rounded-bl-2xl">
         <!--        Form-->
         <div class="w-96 bg-primaryLight rounded-2xl flex-column justify-center align-top px-16 py-8 ">
-          <p class="w-full mx-auto text-center font-IRANSansXBold text-3xl mb-8">ورود</p>
+          <p class="w-full mx-auto text-center font-IRANSansXBold text-3xl mb-8">ثبت‌ نام</p>
+          <v-text-field
+              base-color="primary"
+              v-model="name"
+              label="نام و نام خانوادگی"
+              placeholder="نام خود را به فارسی وارد کنید."
+              type="tel"
+              color="primary"
+              class="font-IRANSansXDemiBold mb-2"
+              hide-details="auto"
+              outlined
+              :rules="nameRules"
+          ></v-text-field>
           <v-text-field
               base-color="primary"
               v-model="phoneNumber"
@@ -53,31 +77,33 @@ const togglePasswordVisibility = () => {
               @click:append="togglePasswordVisibility"
               :rules="passwordRules"
           ></v-text-field>
+
+          <v-text-field
+              v-model="password2"
+              label="تکرار رمز عبور"
+              placeholder="رمز عبور خود را وارد کنید"
+              :type="showPassword ? 'text' : 'password'"
+              color="primary"
+              class="font-IRANSansXDemiBold mt-2"
+              hide-details="auto"
+              outlined
+              :rules="password2Rules"
+          ></v-text-field>
           <div class="w-full mx-auto justify-center mt-4 gap-5 flex">
             <button
                 class="font-IRANSansXBold rounded-3xl  w-fit px-6 py-2 bg-primary ">
               ورود
             </button>
-            <NuxtLink to="/signUp">
-              <button
-                  class="font-IRANSansXBold rounded-3xl  w-fit px-4 border-2 py-2 text-primary border-primary ">
-                ثبت‌نام
-              </button>
-            </NuxtLink>
-
+            <button
+                class="font-IRANSansXBold rounded-3xl  w-fit px-4 border-2 py-2 text-primary border-primary ">
+              ثبت‌نام
+            </button>
           </div>
-          <p
-              class="font-IRANSansXDemiBold w-full text-center mt-6 hover:cursor-pointer" dir="rtl">
-
-            <NuxtLink to="/forgotPassword"><u class=" hover:cursor-pointer">رمز عبور خود را فراموش کرده‌ام.</u>
-            </NuxtLink>
-
-          </p>
 
           <p
               class="font-IRANSansXDemiBold w-full text-center mt-16" dir="rtl">
-            حساب کاربری ندارید؟
-            <NuxtLink to="/signUp"><u class=" hover:cursor-pointer">ثبت نام کنید.</u></NuxtLink>
+            حساب کاربری دارید؟
+            <NuxtLink to="/signIn"><u class=" hover:cursor-pointer">وارد شوید.</u></NuxtLink>
           </p>
         </div>
       </div>

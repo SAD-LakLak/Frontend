@@ -1,24 +1,15 @@
 <template>
-  <v-card
-      class="mx-auto flex justify-center"
-      prepend-icon="$vuetify"
-      subtitle="The #1 Vue UI Library"
-      width="400"
-  >
-    <template v-slot:title>
-      <span class="font-weight-black">Welcome to Vuetify</span>
-    </template>
-
-    <v-card-text class="bg-surface-light pt-4">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, ratione debitis quis est labore voluptatibus!
-      Eaque cupiditate minima, at placeat totam, magni doloremque veniam neque porro libero rerum unde voluptatem!
-    </v-card-text>
-
-    <v-btn prepend-icon="$vuetify">
-      Button
-    </v-btn>
-  </v-card>
-
+  <div class="w-full flex-col gap-24 px-2 lg:px-16 bg-blue-100 h-full pt-8 pb-4">
+    <Header/>
+    <br/>
+    <img src="public/comingsoon.png" class="rounded-2xl">
+    <br/>
+    <Footer/>
+  </div>
 </template>
+
 <script setup lang="ts">
+import Header from "~/components/Header.vue";
+import Footer from "~/components/Footer.vue";
+
 </script>

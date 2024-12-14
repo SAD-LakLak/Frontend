@@ -6,9 +6,9 @@ export default defineNuxtConfig({
     devtools: {enabled: true},
 
     css: [
-        '~/assets/css/main.css',
-        'vuetify/styles',
         '@mdi/font/css/materialdesignicons.min.css',
+        '@/assets/css/main.css',
+        '~/assets/css/fonts.css',
     ],
 
     postcss: {
@@ -24,6 +24,7 @@ export default defineNuxtConfig({
 
     build: {
         transpile: ['vuetify'],
+        sourcemap: false,
     },
 
     runtimeConfig: {
@@ -31,4 +32,12 @@ export default defineNuxtConfig({
             theme: 'light',
         },
     },
+    buildModules: [
+        'vuetify/nuxt'
+    ],
+    vuetify: {
+        icons: {
+            defaultSet: 'mdi',
+        }
+    }
 });

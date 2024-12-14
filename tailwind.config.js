@@ -1,15 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-        "./components/**/*.{js,vue,ts}",
-        "./layouts/**/*.vue",
-        "./pages/**/*.vue",
-        "./plugins/**/*.{js,ts}",
-        "./app.vue",
-        "./error.vue",
+        './pages/**/*.{vue,js,ts,jsx,tsx}',
+        './components/**/*.{vue,js,ts,jsx,tsx}',
+        './layouts/**/*.{vue,js,ts,jsx,tsx}',
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                IRANSansXBold: ['IRANSansXBold'],
+                IRANSansXDemiBold: ['IRANSansXDemiBold'],
+            },
+        },
     },
     plugins: [],
 }

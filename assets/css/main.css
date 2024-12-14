@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.no-hover:hover {
+    background-color: transparent !important;
+    color: inherit !important;
+    box-shadow: none !important;
+}

@@ -13,8 +13,7 @@
     "@mdi/js": "^7.4.47",
     "nuxt": "^3.14.1592",
     "vite-plugin-vuetify": "^2.0.4",
-    "vue": "latest",
-    "vue-router": "latest"
+    "vue": "latest"
   },
   "devDependencies": {
     "@mdi/font": "^7.4.47",

@@ -14,7 +14,7 @@ export default defineNuxtPlugin((nuxtApp) => {
                 dark: FALSE,
                 colors: {
                     primary: '#3792D5',       // MainBlue
-                    secondary: '#74BEF5',     // AccentBlue
+                    secondary: '#CCEBFF',     // AccentBlue
                     accent: '#E89325',        // AccentOrange
                     error: '#FB8C00',         // Warning
                     background: '#FBF9EF',    // TextLight (برای پس‌زمینه)

@@ -1,5 +1,5 @@
 <template xmlns="http://www.w3.org/1999/html">
-  <div class="w-full flex-col gap-24 px-2 lg:px-16 bg-blue-100 h-screen py-8 border-blue-800 border-2">
+  <div class="w-full flex-col gap-24 px-2 lg:px-16 bg-blue-100 h-full pt-8 pb-4">
     <!--    HEADER-->
     <Header/>
     <br/>

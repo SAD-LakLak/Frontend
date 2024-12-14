@@ -1,6 +1,6 @@
 <template>
 
-  <nuxt-layout>
+  <nuxt-layout class="bg-blue-100">
 
   </nuxt-layout>
 

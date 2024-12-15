@@ -4,6 +4,11 @@ import Footer from "~/components/Footer.vue";
 import {ref, computed} from 'vue';
 import {nameRules, passwordRules, phoneRules} from "~/constants/inputRules";
 import {password} from "iron-webcrypto";
+import ErrorSnackbar from '@/components/ErrorSnackbar.vue';
+
+const showError = ref(false);
+const errorMessage = ref('');
+
 
 const phoneNumber = ref("");
 const name = ref("");
@@ -26,6 +31,8 @@ const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
 };
 
+let isActive = true;
+
 </script>
 
 <template>
@@ -34,6 +41,11 @@ const togglePasswordVisibility = () => {
     <br/>
 
     <div class=" items-center justify-center flex rounded-2xl " style="position: relative">
+      <ErrorSnackbar
+          class="position-sticky"
+          v-model="showError"
+          :errorMessage="errorMessage"
+      />
       <div class="h-3/4  rounded-2xl flex shadow-2xl shadow-gray-800" style="position:absolute;">
         <!--        Pattern-->
         <img src="public/formPattern.png" class="rounded-tl-2xl rounded-bl-2xl">
@@ -92,12 +104,9 @@ const togglePasswordVisibility = () => {
           <div class="w-full mx-auto justify-center mt-4 gap-5 flex">
             <button
                 class="font-IRANSansXBold rounded-3xl  w-fit px-6 py-2 bg-primary ">
-              ورود
-            </button>
-            <button
-                class="font-IRANSansXBold rounded-3xl  w-fit px-4 border-2 py-2 text-primary border-primary ">
               ثبت‌نام
             </button>
+
           </div>
 
           <p
@@ -111,6 +120,8 @@ const togglePasswordVisibility = () => {
 
 
     </div>
+
+
 
     <br/>
     <Footer/>

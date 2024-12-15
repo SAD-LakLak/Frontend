@@ -13,3 +13,8 @@ export const passwordRules = [
 export const nameRules = [
     (value: string) => !!value || 'نام شما نباید خالی باشد',
 ];
+
+export const emailRules = [
+    (value: string) => !!value || "ایمیل الزامی است",
+    (value:string) =>  /.+@.+\..+/.test(value) || "فرمت ایمیل معتبر نیست"
+];

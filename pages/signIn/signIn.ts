@@ -1,15 +1,18 @@
 import axiosInstance from "~/axiosConfig";
 
-interface ISignUpBody {
+interface ISignInBody {
     "username": string,
-    "email": string,
     "password": string
 }
 
+interface ISignInHeaders {
+
+}
+
 export const signUp = (signUpData: ISignUpBody) => {
-    const body = signUpData;
-    const headers = {};
-    axiosInstance.post('/register/', body, {headers: headers})
+    const body: ISignInBody = signUpData;
+    const headers: ISignInHeaders = {};
+    axiosInstance.post('/login', body, {headers: headers})
         .then(res => {
             console.log(res)
         })

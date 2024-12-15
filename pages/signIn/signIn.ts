@@ -17,7 +17,7 @@ export const signIn = async (signInData: ISignInBody, snackbarConfig: Ref<{
 }>) => {
     const body = signInData;
     const headers = {};
-    axiosInstance.post('/login/', body, {headers})
+    axiosInstance.post('/token/', body, {headers})
         .then((res) => {
             snackbarConfig.value.snackType = 'success';
             snackbarConfig.value.errorMessage = 'ورود با موفقیت انجام شد!';
@@ -30,11 +30,11 @@ export const signIn = async (signInData: ISignInBody, snackbarConfig: Ref<{
         })
         .catch((err) => {
                 snackbarConfig.value.snackType = 'error';
-                snackbarConfig.value.errorMessage = err.response?.data?.message || 'مشکلی پیش آمده است.';
+                console.log(err.response.data.detail)
+                snackbarConfig.value.errorMessage = err.response.data.detail || 'مشکلی پیش آمده است.';
             }
         )
         .finally(() => {
             snackbarConfig.value.showError = true;
-
         });
 };

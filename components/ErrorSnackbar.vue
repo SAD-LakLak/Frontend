@@ -16,8 +16,8 @@ import {ref, watch} from 'vue';
 
 const colors = {
   error: '#FB8C00',
-  success: 'green',
-  warning: 'orange',
+  success: '#4fe825',
+  warning: '#CCEBFF',
 };
 
 const props = defineProps({

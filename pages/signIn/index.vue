@@ -4,7 +4,8 @@ import Footer from "~/components/Footer.vue";
 import {ref} from "vue";
 import {passwordRules, phoneRules} from "~/constants/inputRules";
 import {password} from "iron-webcrypto";
-import themeColors from "~/constants/colors";
+import ErrorSnackbar from "~/components/ErrorSnackbar.vue";
+import {signIn} from "~/pages/signIn/signIn";
 
 const phoneNumber = ref("");
 
@@ -14,6 +15,27 @@ const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
 };
 
+const snackbarConfig = ref({
+  showError: false,
+  errorMessage: '',
+  snackType: ''
+});
+
+
+async function handleSignIn() {
+  const data = {
+    "username": phoneNumber.value,
+    "password": password.value,
+  }
+  if (data.username && data.password) {
+    console.log(true)
+    await signIn(data, snackbarConfig)
+  } else {
+    console.log(false)
+  }
+}
+
+
 </script>
 
 <template>
@@ -22,6 +44,12 @@ const togglePasswordVisibility = () => {
     <br/>
 
     <div class=" items-center justify-center flex rounded-2xl " style="position: relative">
+      <ErrorSnackbar
+          class="position-sticky"
+          :type="snackbarConfig.snackType"
+          v-model="snackbarConfig.showError"
+          :errorMessage="snackbarConfig.errorMessage"
+      />
       <div class="h-3/4  rounded-2xl flex shadow-2xl shadow-gray-800" style="position:absolute;">
         <!--        Pattern-->
         <img src="public/formPattern.png" class="rounded-tl-2xl rounded-bl-2xl">
@@ -54,8 +82,8 @@ const togglePasswordVisibility = () => {
               :rules="passwordRules"
           ></v-text-field>
           <div class="w-full mx-auto justify-center mt-4 gap-5 flex">
-            <button
-                class="font-IRANSansXBold rounded-3xl  w-fit px-6 py-2 bg-primary ">
+            <button @click="()=>{handleSignIn()}"
+                    class="font-IRANSansXBold rounded-3xl  w-fit px-6 py-2 bg-primary ">
               ورود
             </button>
             <NuxtLink to="/signUp">

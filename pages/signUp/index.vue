@@ -23,11 +23,6 @@ const password = ref('');
 const password2 = ref('');
 const showPassword = ref(false);
 
-const passwordRules = [
-  (v: any) => !!v || 'رمز عبور الزامی است',
-  (v: any) => v.length == 8 || 'رمز عبور باید 8 کاراکتر باشد'
-];
-
 const password2Rules = [
   (v: any) => !!v || 'تکرار رمز عبور الزامی است',
   (v: any) => v === password.value || 'رمز عبور و تکرار آن باید یکسان باشند'
@@ -43,10 +38,9 @@ async function handleSignUp() {
     "email": email.value,
     "password": password.value,
   }
-  console.log(data)
   if ((password.value === password2.value) && email.value && phoneNumber.value) {
     console.log(true)
-    const result = signUp(data, snackbarConfig)
+    await signUp(data, snackbarConfig)
   } else {
     console.log(false)
   }

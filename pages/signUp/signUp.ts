@@ -17,14 +17,14 @@ export const signUp = async (signUpData: ISignUpBody, snackbarConfig: Ref<{
         .then((res) => {
             snackbarConfig.value.snackType = 'success';
             snackbarConfig.value.errorMessage = 'ثبت‌نام با موفقیت انجام شد!';
-            setTimeout(()=>{
+            setTimeout(() => {
                 const router = useRouter();
                 router.push("/signIn")
-            },1000)
+            }, 1000)
         })
         .catch((err) => {
                 snackbarConfig.value.snackType = 'error';
-                snackbarConfig.value.errorMessage = err.response?.data?.message || 'مشکلی پیش آمده است.';
+                snackbarConfig.value.errorMessage = err.response.data.detail || 'مشکلی پیش آمده است.';
             }
         )
         .finally(() => {

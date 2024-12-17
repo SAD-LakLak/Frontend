@@ -6,6 +6,7 @@ import {emailRules, nameRules, passwordRules, phoneRules} from "~/constants/inpu
 import {password} from "iron-webcrypto";
 import ErrorSnackbar from '@/components/ErrorSnackbar.vue';
 import {signUp} from "~/pages/signUp/signUp";
+import {hashPassword} from "~/utils/hashPassword";
 
 const snackbarConfig = ref({
   showError: false,
@@ -40,6 +41,8 @@ async function handleSignUp() {
   }
   if ((password.value === password2.value) && email.value && phoneNumber.value) {
     console.log(true)
+    const hashedPassword = await hashPassword(data.password)
+    data.password = hashedPassword
     await signUp(data, snackbarConfig)
   } else {
     console.log(false)

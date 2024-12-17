@@ -6,6 +6,7 @@ import {passwordRules, phoneRules} from "~/constants/inputRules";
 import {password} from "iron-webcrypto";
 import ErrorSnackbar from "~/components/ErrorSnackbar.vue";
 import {signIn} from "~/pages/signIn/signIn";
+import {hashPassword} from "~/utils/hashPassword";
 
 const phoneNumber = ref("");
 
@@ -29,6 +30,8 @@ async function handleSignIn() {
   }
   if (data.username && data.password) {
     console.log(true)
+    const hashedPassword = await hashPassword(data.password)
+    data.password = hashedPassword
     await signIn(data, snackbarConfig)
   } else {
     console.log(false)

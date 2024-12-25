@@ -1,23 +1,23 @@
 <template>
   <v-snackbar
-      v-model="visible"
-      :timeout="timeout"
-      :color="colors[props.type]"
-      class="text-center font-IRANSansXDemiBold"
-      dir="rtl"
-      elevation="2"
+    v-model="visible"
+    :timeout="timeout"
+    :color="colors[props.type]"
+    class="text-center font-IRANSansXDemiBold"
+    dir="rtl"
+    elevation="2"
   >
     {{ message }}
   </v-snackbar>
 </template>
 
 <script setup>
-import {ref, watch} from 'vue';
+import { ref, watch } from "vue";
 
 const colors = {
-  error: '#FB8C00',
-  success: '#4fe825',
-  warning: '#CCEBFF',
+  error: "#FB8C00",
+  success: "#4fe825",
+  warning: "#CCEBFF",
 };
 
 const props = defineProps({
@@ -27,29 +27,36 @@ const props = defineProps({
   },
   errorMessage: {
     type: String,
-    default: '',
+    default: "",
   },
   timeout: {
     type: Number,
     default: 3000,
-  }, type: {
+  },
+  type: {
     type: String,
-    default: 'error', // نوع پیام: error، success یا warning
+    default: "error", // نوع پیام: error، success یا warning
   },
 });
 
 const visible = ref(props.modelValue);
 const message = ref(props.errorMessage);
-watch(() => props.modelValue, (newValue) => {
-  visible.value = newValue;
-});
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    visible.value = newValue;
+  },
+);
 
-watch(() => props.errorMessage, (newValue) => {
-  message.value = newValue;
-});
+watch(
+  () => props.errorMessage,
+  (newValue) => {
+    message.value = newValue;
+  },
+);
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(["update:modelValue"]);
 watch(visible, (newValue) => {
-  emit('update:modelValue', newValue);
+  emit("update:modelValue", newValue);
 });
 </script>

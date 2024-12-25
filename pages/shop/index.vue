@@ -1,13 +1,9 @@
 <script setup lang="ts">
 definePageMeta({
-  layout:"default"
-})
+  layout: "default",
+});
 </script>
 
-<template>
+<template></template>
 
-</template>
-
-<style scoped>
-
-</style>
+<style scoped></style>

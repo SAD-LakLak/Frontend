@@ -9,19 +9,29 @@ import { signIn } from "~/pages/signIn/signIn";
 import { hashPassword } from "~/utils/hashPassword";
 import { replacePersianNumbers } from "~/utils/replacePersianNumbers";
 
+const phoneNumber = ref("");
+
+const password = ref("");
+const showPassword = ref(false);
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value;
+};
+
 const snackbarConfig = ref({
   showError: false,
   errorMessage: "",
   snackType: ""
 });
 
-async function handleRecovery() {
+async function handlePassChange() {
   const data = {
-    email: replacePersianNumbers(email.value)
+    password: replacePersianNumbers(password.value)
   };
-  if (email.value) {
+  if (password.value === password2.value) {
     console.log(true);
-    await recoverPass(data, snackbarConfig);
+    const hashedPassword = await hashPassword(data.password);
+    data.password = hashedPassword;
+    await changePass(data, snackbarConfig);
   } else {
     console.log(false);
   }
@@ -56,44 +66,60 @@ async function handleRecovery() {
           <p
             class="w-full mx-auto text-center font-IRANSansXBold text-3xl mt-4 mb-16"
           >
-            بازیابی رمز عبور
+            تغییر رمز عبور
           </p>
+
           <p
             class="w-full mx-auto text-center font-IRANSansXDemiBold text-l mb-8" dir="rtl"
           >
-          برای دریافت لینک بازیابی رمز عبور، شماره تماس خود را وارد کنید.
+          رمز عبور جدید خود را وارد کنید.
           </p>
+
           <v-text-field
-            v-model="email"
-            label="ایمیل"
-            placeholder="example@gmail.com"
-            type="email"
+            v-model="password"
+            label="رمز عبور"
+            placeholder="رمز عبور خود را وارد کنید"
+            :type="showPassword ? 'text' : 'password'"
             color="primary"
-            base-color="primary"
+            class="font-IRANSansXDemiBold mb-4"
+            hide-details="auto"
+            outlined
+            :rules="passwordRules"
+          >
+            <template #append-inner>
+              <v-icon
+                class="cursor-pointer"
+                @click="togglePasswordVisibility"
+              >
+                {{ showPassword ? 'mdi-eye-off' : 'mdi-eye' }}
+              </v-icon>
+            </template>
+          </v-text-field>
+
+          <v-text-field
+            v-model="password2"
+            label="تکرار رمز عبور"
+            placeholder="رمز عبور خود را وارد کنید"
+            type="password"
+            color="primary"
             class="font-IRANSansXDemiBold"
             hide-details="auto"
             outlined
-            :rules="emailRules"
-            style="text-align: right"
+            :rules="password2Rules"
           ></v-text-field>
-          <div class="w-full mx-auto justify-center mt-8 gap-5 flex">
+
+          <div class="w-full mx-auto justify-center mt-16 gap-5 flex">
             <button
               @click="
                 () => {
-                  handleRecovery();
+                  handlePassChange();
                 }
               "
               class="font-IRANSansXBold rounded-3xl w-fit px-6 py-2 bg-primary"
             >
-              دریافت لینک
+              تغییر رمز عبور
             </button>
           </div>
-
-          <p class="font-IRANSansXDemiBold w-full text-center mt-16" dir="rtl">
-            <NuxtLink to="/signIn"
-            ><u class="hover:cursor-pointer">بازگشت به صفحه‌ی ورود</u></NuxtLink
-            >
-          </p>
         </div>
       </div>
       <img src="public/comingsoon.png" class="rounded-2xl h-3/5" />

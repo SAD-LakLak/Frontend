@@ -2,12 +2,12 @@
 import Header from "~/components/Header.vue";
 import Footer from "~/components/Footer.vue";
 import { ref } from "vue";
-import { passwordRules, phoneRules } from "~/constants/inputRules";
-import { password } from "iron-webcrypto";
 import ErrorSnackbar from "~/components/ErrorSnackbar.vue";
-import { signIn } from "~/pages/signIn/signIn";
-import { hashPassword } from "~/utils/hashPassword";
 import { replacePersianNumbers } from "~/utils/replacePersianNumbers";
+import { resetPass } from "~/pages/resetPass/resetPass";
+import {
+  emailRules
+} from "~/constants/inputRules";
 
 const snackbarConfig = ref({
   showError: false,
@@ -15,13 +15,15 @@ const snackbarConfig = ref({
   snackType: ""
 });
 
+const email = ref("");
+
 async function handleRecovery() {
   const data = {
     email: replacePersianNumbers(email.value)
   };
   if (email.value) {
     console.log(true);
-    await recoverPass(data, snackbarConfig);
+    await resetPass(data, snackbarConfig);
   } else {
     console.log(false);
   }

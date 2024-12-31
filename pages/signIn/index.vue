@@ -3,7 +3,7 @@ import Header from "~/components/Header.vue";
 import Footer from "~/components/Footer.vue";
 import { ref } from "vue";
 import { passwordRules, phoneRules } from "~/constants/inputRules";
-import { password } from "iron-webcrypto";
+import type { password } from "iron-webcrypto";
 import ErrorSnackbar from "~/components/ErrorSnackbar.vue";
 import { signIn } from "~/pages/signIn/signIn";
 import { hashPassword } from "~/utils/hashPassword";

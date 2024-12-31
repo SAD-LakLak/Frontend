@@ -4,7 +4,7 @@ interface IPassRecoveryBody {
   email: string;
 }
 
-export const recoverPass = async (
+export const resetPass = async (
   recoveryData: IPassRecoveryBody,
   snackbarConfig: Ref<{
     showError: boolean;

@@ -8,7 +8,7 @@ import {
   passwordRules,
   phoneRules
 } from "~/constants/inputRules";
-import { password } from "iron-webcrypto";
+import type { password } from "iron-webcrypto";
 import ErrorSnackbar from "@/components/ErrorSnackbar.vue";
 import { signUp } from "~/pages/signUp/signUp";
 import { hashPassword } from "~/utils/hashPassword";

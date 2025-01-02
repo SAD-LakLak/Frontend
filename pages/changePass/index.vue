@@ -3,7 +3,7 @@ import Header from "~/components/Header.vue";
 import Footer from "~/components/Footer.vue";
 import { ref } from "vue";
 import { passwordRules, phoneRules } from "~/constants/inputRules";
-import type { password } from "iron-webcrypto";
+import { password } from "iron-webcrypto";
 import ErrorSnackbar from "~/components/ErrorSnackbar.vue";
 import { signIn } from "~/pages/signIn/signIn";
 import { hashPassword } from "~/utils/hashPassword";
@@ -23,16 +23,15 @@ const snackbarConfig = ref({
   snackType: ""
 });
 
-async function handleSignIn() {
+async function handlePassChange() {
   const data = {
-    username: replacePersianNumbers(phoneNumber.value),
     password: replacePersianNumbers(password.value)
   };
-  if (data.username && data.password) {
+  if (password.value === password2.value) {
     console.log(true);
     const hashedPassword = await hashPassword(data.password);
     data.password = hashedPassword;
-    await signIn(data, snackbarConfig);
+    await changePass(data, snackbarConfig);
   } else {
     console.log(false);
   }
@@ -47,7 +46,7 @@ async function handleSignIn() {
     <br />
 
     <div
-      class="items-center justify-center flex rounded-2xl"
+      class="flex items-center justify-center h-full rounded-2xl"
       style="position: relative"
     >
       <ErrorSnackbar
@@ -60,81 +59,67 @@ async function handleSignIn() {
         class="h-3/4 rounded-2xl flex shadow-2xl shadow-gray-800"
         style="position: absolute"
       >
-        <!--        Pattern-->
-        <img
-          src="public/formPattern.png"
-          class="rounded-tl-2xl rounded-bl-2xl"
-        />
         <!--        Form-->
         <div
           class="w-96 bg-primaryLight rounded-2xl flex-column justify-center align-top px-16 py-8"
         >
           <p
-            class="w-full mx-auto text-center font-IRANSansXBold text-3xl mb-8"
+            class="w-full mx-auto text-center font-IRANSansXBold text-3xl mt-4 mb-16"
           >
-            ورود
+            تغییر رمز عبور
           </p>
-          <v-text-field
-            base-color="primary"
-            v-model="phoneNumber"
-            label="شماره تماس"
-            placeholder="09193726908"
-            type="tel"
-            color="primary"
-            class="font-IRANSansXDemiBold mb-2"
-            hide-details="auto"
-            outlined
-            :rules="phoneRules"
-          ></v-text-field>
+
+          <p
+            class="w-full mx-auto text-center font-IRANSansXDemiBold text-l mb-8" dir="rtl"
+          >
+          رمز عبور جدید خود را وارد کنید.
+          </p>
+
           <v-text-field
             v-model="password"
             label="رمز عبور"
             placeholder="رمز عبور خود را وارد کنید"
             :type="showPassword ? 'text' : 'password'"
             color="primary"
+            class="font-IRANSansXDemiBold mb-4"
+            hide-details="auto"
+            outlined
+            :rules="passwordRules"
+          >
+            <template #append-inner>
+              <v-icon
+                class="cursor-pointer"
+                @click="togglePasswordVisibility"
+              >
+                {{ showPassword ? 'mdi-eye-off' : 'mdi-eye' }}
+              </v-icon>
+            </template>
+          </v-text-field>
+
+          <v-text-field
+            v-model="password2"
+            label="تکرار رمز عبور"
+            placeholder="رمز عبور خود را وارد کنید"
+            type="password"
+            color="primary"
             class="font-IRANSansXDemiBold"
             hide-details="auto"
             outlined
-            :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-            @click:append="togglePasswordVisibility"
-            :rules="passwordRules"
+            :rules="password2Rules"
           ></v-text-field>
-          <div class="w-full mx-auto justify-center mt-4 gap-5 flex">
+
+          <div class="w-full mx-auto justify-center mt-16 gap-5 flex">
             <button
               @click="
                 () => {
-                  handleSignIn();
+                  handlePassChange();
                 }
               "
               class="font-IRANSansXBold rounded-3xl w-fit px-6 py-2 bg-primary"
             >
-              ورود
+              تغییر رمز عبور
             </button>
-            <NuxtLink to="/signUp">
-              <button
-                class="font-IRANSansXBold rounded-3xl w-fit px-4 border-2 py-2 text-primary border-primary"
-              >
-                ثبت‌نام
-              </button>
-            </NuxtLink>
           </div>
-          <p
-            class="font-IRANSansXDemiBold w-full text-center mt-6 hover:cursor-pointer"
-            dir="rtl"
-          >
-            <NuxtLink to="/recoverPass"
-            ><u class="hover:cursor-pointer"
-            >رمز عبور خود را فراموش کرده‌ام.</u
-            >
-            </NuxtLink>
-          </p>
-
-          <p class="font-IRANSansXDemiBold w-full text-center mt-16" dir="rtl">
-            حساب کاربری ندارید؟
-            <NuxtLink to="/signUp"
-            ><u class="hover:cursor-pointer">ثبت نام کنید.</u></NuxtLink
-            >
-          </p>
         </div>
       </div>
       <img src="public/comingsoon.png" class="rounded-2xl h-3/5" />

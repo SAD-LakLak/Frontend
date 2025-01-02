@@ -13,6 +13,7 @@ import ErrorSnackbar from "@/components/ErrorSnackbar.vue";
 import { signUp } from "~/pages/signUp/signUp";
 import { hashPassword } from "~/utils/hashPassword";
 import { replacePersianNumbers } from "~/utils/replacePersianNumbers";
+import { nationCodeValidator } from "~/utils/nationalCodeValidator";
 
 const snackbarConfig = ref({
   showError: false,
@@ -23,7 +24,8 @@ const snackbarConfig = ref({
 const phoneNumber = ref("");
 const name = ref("");
 const email = ref("");
-
+const username = ref("");
+const nationalCode = ref("");
 const password = ref("");
 const password2 = ref("");
 const showPassword = ref(false);
@@ -32,6 +34,12 @@ const password2Rules = [
   (v: any) => !!v || "تکرار رمز عبور الزامی است",
   (v: any) => v === password.value || "رمز عبور و تکرار آن باید یکسان باشند"
 ];
+
+const nationalCodeRules = [
+  (v: any) => !!v || "کد ملی الزامی است",
+  (v: any) => nationCodeValidator(v) || "کد ملی معتبر نیست"
+];
+
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
 };
@@ -53,13 +61,13 @@ async function handleSignUp() {
 }
 </script>
 
+
 <template>
   <div
-    class="w-full flex-col gap-24 px-2 lg:px-16 bg-blue-100 h-full pt-8 pb-4"
+    class="w-full flex-col gap-24 px-2 lg:px-16 bg-blue-100 pt-8 pb-4"
   >
     <Header />
     <br />
-
     <div
       class="items-center justify-center flex rounded-2xl"
       style="position: relative"
@@ -71,17 +79,17 @@ async function handleSignUp() {
         :errorMessage="snackbarConfig.errorMessage"
       />
       <div
-        class="h-3/4 rounded-2xl flex shadow-2xl shadow-gray-800"
+        class=" h-[90%] rounded-2xl flex shadow-2xl shadow-gray-800"
         style="position: absolute"
       >
         <!--        Pattern-->
         <img
           src="public/formPattern.png"
-          class="rounded-tl-2xl rounded-bl-2xl"
+          class="rounded-tl-2xl rounded-bl-2xl h-fill"
         />
         <!--        Form-->
         <div
-          class="w-96 bg-primaryLight rounded-2xl flex-col py-4 justify-center align-top px-16 py-8 h-full flex"
+          class="w-96 bg-primaryLight rounded-2xl flex-col py-4 justify-center align-top px-16 py-8 flex"
         >
           <p
             class="w-full mx-auto text-center font-IRANSansXBold text-3xl mb-4"
@@ -92,8 +100,8 @@ async function handleSignUp() {
             base-color="primary"
             v-model="name"
             label="نام و نام خانوادگی"
-            placeholder="نام خود را به فارسی وارد کنید."
-            type="tel"
+            placeholder="نام کامل خود را وارد کنید."
+            type="text"
             color="primary"
             class="font-IRANSansXDemiBold"
             hide-details="auto"
@@ -125,6 +133,30 @@ async function handleSignUp() {
             :rules="emailRules"
           ></v-text-field>
           <v-text-field
+            v-model="username"
+            label="نام کاربری"
+            placeholder="example1234"
+            type="text"
+            color="primary"
+            base-color="primary"
+            class="font-IRANSansXDemiBold"
+            hide-details="auto"
+            outlined
+            :rules="passwordRules"
+          ></v-text-field>
+          <v-text-field
+            v-model="nationalCode"
+            label="کد ملی"
+            placeholder="4409185731"
+            type="phoneNumber"
+            color="primary"
+            base-color="primary"
+            class="font-IRANSansXDemiBold"
+            hide-details="auto"
+            outlined
+            :rules="nationalCodeRules"
+          ></v-text-field>
+          <v-text-field
             v-model="password"
             label="رمز عبور"
             placeholder="رمز عبور خود را وارد کنید"
@@ -137,7 +169,6 @@ async function handleSignUp() {
             @click:append="togglePasswordVisibility"
             :rules="passwordRules"
           ></v-text-field>
-
           <v-text-field
             v-model="password2"
             label="تکرار رمز عبور"

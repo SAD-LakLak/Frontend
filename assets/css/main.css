@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 .no-hover:hover {
-  background-color: transparent !important;
-  color: inherit !important;
-  box-shadow: none !important;
+    background-color: transparent !important;
+    color: inherit !important;
+    box-shadow: none !important;
+}
+
+.border-debug {
+    border: 2px solid red !important;
 }

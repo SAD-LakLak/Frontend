@@ -4,14 +4,14 @@ export const phoneRules = [
 ];
 
 export const passwordRules = [
-  (value: string) => !!value || "رمز عبور نباید خالی باشد",
-  (value: string) => value.length == 8 || "رمز عبور باید 8 کاراکتر باشد",
+  (value: string) => !!value || "نباید خالی باشد",
+  (value: string) => value.length == 8 || "باید 8 کاراکتر باشد",
 ];
 export const nameRules = [
-  (value: string) => !!value || "نام شما نباید خالی باشد",
+  (value: string) => !!value || "نباید خالی باشد",
 ];
 
 export const emailRules = [
-  (value: string) => !!value || "ایمیل الزامی است",
+  (value: string) => !!value || "این فیلد الزامی است",
   (value: string) => /.+@.+\..+/.test(value) || "فرمت ایمیل معتبر نیست",
 ];

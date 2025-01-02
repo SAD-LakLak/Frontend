@@ -110,13 +110,6 @@ async function handleSignIn() {
             >
               ورود
             </button>
-            <NuxtLink to="/signUp">
-              <button
-                class="font-IRANSansXBold rounded-3xl w-fit px-4 border-2 py-2 text-primary border-primary"
-              >
-                ثبت‌نام
-              </button>
-            </NuxtLink>
           </div>
           <p
             class="font-IRANSansXDemiBold w-full text-center mt-6 hover:cursor-pointer"

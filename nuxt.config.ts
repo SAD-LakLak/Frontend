@@ -24,7 +24,6 @@ export default defineNuxtConfig({
 
   build: {
     transpile: ["vuetify"],
-    sourcemap: false,
   },
 
   runtimeConfig: {

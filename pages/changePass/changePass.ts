@@ -1,31 +1,30 @@
 import axiosInstance from "~/axiosConfig";
 
-interface ISignUpBody {
-  phone_number: string;
-  first_name: string;
-  email: string;
-  username: string;
-  national_code: string;
-  password: string;
-  password2: string;
-  role: string;
+interface IPassRecoveryBody {
+  newPassword: string;
 }
 
-export const signUp = async (
-  signUpData: ISignUpBody,
+interface IPassRecoveryHeader {
+  token: string;
+}
+
+export const changePass = async (
+  recoveryData: IPassRecoveryBody,
+  recoveryHeader: IPassRecoveryHeader,
   snackbarConfig: Ref<{
     showError: boolean;
     errorMessage: string;
     snackType: string;
   }>
 ) => {
-  const body = signUpData;
+  const body = recoveryData;
+  const { token } = recoveryHeader;
   const headers = {};
   axiosInstance
-    .post("/register/", body, { headers })
+    .post(`/reset_password/${token}`, body, { headers })
     .then(() => {
       snackbarConfig.value.snackType = "success";
-      snackbarConfig.value.errorMessage = "ثبت‌نام با موفقیت انجام شد!";
+      snackbarConfig.value.errorMessage = "رمز عبور با موفقیت تغییر کرد!";
       setTimeout(() => {
         const router = useRouter();
         router.push("/signIn");
@@ -34,7 +33,7 @@ export const signUp = async (
     .catch((err) => {
       snackbarConfig.value.snackType = "error";
       snackbarConfig.value.errorMessage =
-        err.response.data.detail || "مشکلی پیش آمده است.";
+        err.response?.data?.detail || "مشکلی پیش آمده است.";
     })
     .finally(() => {
       snackbarConfig.value.showError = true;

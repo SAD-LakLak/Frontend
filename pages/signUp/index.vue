@@ -14,6 +14,7 @@ import { signUp } from "~/pages/signUp/signUp";
 import { hashPassword } from "~/utils/hashPassword";
 import { replacePersianNumbers } from "~/utils/replacePersianNumbers";
 import { nationCodeValidator } from "~/utils/nationalCodeValidator";
+import { RoleEnum } from "~/pages/signUp/roles";
 
 const snackbarConfig = ref({
   showError: false,
@@ -21,18 +22,24 @@ const snackbarConfig = ref({
   snackType: ""
 });
 
-const phoneNumber = ref("");
-const name = ref("");
-const email = ref("");
-const username = ref("");
-const nationalCode = ref("");
-const password = ref("");
-const password2 = ref("");
+const formData = reactive({
+  phone_number: "",
+  first_name: "",
+  email: "",
+  username: "",
+  national_code: "",
+  password: "",
+  password2: "",
+  showPassword: false,
+  role: "customer"
+});
+
+
 const showPassword = ref(false);
 
 const password2Rules = [
   (v: any) => !!v || "تکرار رمز عبور الزامی است",
-  (v: any) => v === password.value || "رمز عبور و تکرار آن باید یکسان باشند"
+  (v: any) => v === formData.password || "رمز عبور و تکرار آن باید یکسان باشند"
 ];
 
 const nationalCodeRules = [
@@ -45,18 +52,17 @@ const togglePasswordVisibility = () => {
 };
 
 async function handleSignUp() {
-  const data = {
-    username: replacePersianNumbers(phoneNumber.value),
-    email: replacePersianNumbers(email.value),
-    password: replacePersianNumbers(password.value)
-  };
-  if (password.value === password2.value && email.value && phoneNumber.value) {
-    console.log(true);
-    const hashedPassword = await hashPassword(data.password);
-    data.password = hashedPassword;
-    await signUp(data, snackbarConfig);
+  if (formData.password === formData.password2 && formData.email && formData.phone_number) {
+
+    const hashedPassword = await hashPassword(formData.password);
+    formData.password = hashedPassword;
+
+    formData.phone_number = replacePersianNumbers(formData.phone_number);
+    formData.national_code = replacePersianNumbers(formData.national_code);
+    formData.role = RoleEnum[2];
+
+    await signUp(formData, snackbarConfig);
   } else {
-    console.log(false);
   }
 }
 </script>
@@ -98,7 +104,7 @@ async function handleSignUp() {
           </p>
           <v-text-field
             base-color="primary"
-            v-model="name"
+            v-model="formData.first_name"
             label="نام و نام خانوادگی"
             placeholder="نام کامل خود را وارد کنید."
             type="text"
@@ -110,7 +116,7 @@ async function handleSignUp() {
           ></v-text-field>
           <v-text-field
             base-color="primary"
-            v-model="phoneNumber"
+            v-model="formData.phone_number"
             label="شماره تماس"
             placeholder="09193726908"
             type="tel"
@@ -121,7 +127,7 @@ async function handleSignUp() {
             :rules="phoneRules"
           ></v-text-field>
           <v-text-field
-            v-model="email"
+            v-model="formData.email"
             label="ایمیل"
             placeholder="example@gmail.com"
             type="email"
@@ -133,7 +139,7 @@ async function handleSignUp() {
             :rules="emailRules"
           ></v-text-field>
           <v-text-field
-            v-model="username"
+            v-model="formData.username"
             label="نام کاربری"
             placeholder="example1234"
             type="text"
@@ -145,10 +151,10 @@ async function handleSignUp() {
             :rules="passwordRules"
           ></v-text-field>
           <v-text-field
-            v-model="nationalCode"
+            v-model="formData.national_code"
             label="کد ملی"
             placeholder="4409185731"
-            type="phoneNumber"
+            type="phone_number"
             color="primary"
             base-color="primary"
             class="font-IRANSansXDemiBold"
@@ -157,7 +163,7 @@ async function handleSignUp() {
             :rules="nationalCodeRules"
           ></v-text-field>
           <v-text-field
-            v-model="password"
+            v-model="formData.password"
             label="رمز عبور"
             placeholder="رمز عبور خود را وارد کنید"
             :type="showPassword ? 'text' : 'password'"
@@ -170,7 +176,7 @@ async function handleSignUp() {
             :rules="passwordRules"
           ></v-text-field>
           <v-text-field
-            v-model="password2"
+            v-model="formData.password2"
             label="تکرار رمز عبور"
             placeholder="رمز عبور خود را وارد کنید"
             type="password"
@@ -187,7 +193,7 @@ async function handleSignUp() {
                   handleSignUp();
                 }
               "
-              class="font-IRANSansXBold rounded-3xl w-fit px-6 py-2 bg-primary"
+              class="font-IRANSansXBold rounded-3xl mt-2 w-fit px-6 py-2 bg-primary"
             >
               ثبت‌نام
             </button>
@@ -209,8 +215,3 @@ async function handleSignUp() {
   </div>
 </template>
 
-<style scoped>
-.debug {
-  border: 2px solid red;
-}
-</style>

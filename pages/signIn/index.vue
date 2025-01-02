@@ -9,9 +9,13 @@ import { signIn } from "~/pages/signIn/signIn";
 import { hashPassword } from "~/utils/hashPassword";
 import { replacePersianNumbers } from "~/utils/replacePersianNumbers";
 
-const phoneNumber = ref("");
 
-const password = ref("");
+const formData = reactive({
+  username: "",
+  password: ""
+});
+
+
 const showPassword = ref(false);
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
@@ -24,17 +28,14 @@ const snackbarConfig = ref({
 });
 
 async function handleSignIn() {
-  const data = {
-    username: replacePersianNumbers(phoneNumber.value),
-    password: replacePersianNumbers(password.value)
-  };
-  if (data.username && data.password) {
-    console.log(true);
-    const hashedPassword = await hashPassword(data.password);
-    data.password = hashedPassword;
-    await signIn(data, snackbarConfig);
+  formData.username = replacePersianNumbers(formData.username);
+  formData.password = replacePersianNumbers(formData.password);
+  if (formData.username && formData.password) {
+    await signIn(formData, snackbarConfig);
   } else {
-    console.log(false);
+    snackbarConfig.value.showError = true;
+    snackbarConfig.value.errorMessage = "لطفا تمامی فیلد‌ها را پر کنید.";
+    snackbarConfig.value.snackType = "error";
   }
 }
 </script>
@@ -76,18 +77,18 @@ async function handleSignIn() {
           </p>
           <v-text-field
             base-color="primary"
-            v-model="phoneNumber"
-            label="شماره تماس"
+            v-model="formData.username"
+            label="نام کاربری"
             placeholder="09193726908"
-            type="tel"
+            type="text"
             color="primary"
             class="font-IRANSansXDemiBold mb-2"
             hide-details="auto"
             outlined
-            :rules="phoneRules"
+            :rules="passwordRules"
           ></v-text-field>
           <v-text-field
-            v-model="password"
+            v-model="formData.password"
             label="رمز عبور"
             placeholder="رمز عبور خود را وارد کنید"
             :type="showPassword ? 'text' : 'password'"

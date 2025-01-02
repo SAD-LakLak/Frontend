@@ -53,10 +53,6 @@ const togglePasswordVisibility = () => {
 
 async function handleSignUp() {
   if (formData.password === formData.password2 && formData.email && formData.phone_number) {
-
-    const hashedPassword = await hashPassword(formData.password);
-    formData.password = hashedPassword;
-
     formData.phone_number = replacePersianNumbers(formData.phone_number);
     formData.national_code = replacePersianNumbers(formData.national_code);
     formData.role = RoleEnum[2];

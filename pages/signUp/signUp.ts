@@ -1,9 +1,14 @@
 import axiosInstance from "~/axiosConfig";
 
 interface ISignUpBody {
-  username: string;
+  phone_number: string;
+  first_name: string;
   email: string;
+  username: string;
+  national_code: string;
   password: string;
+  password2: string;
+  role: string;
 }
 
 export const signUp = async (

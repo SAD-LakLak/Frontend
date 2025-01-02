@@ -5,7 +5,8 @@ interface ISignInBody {
   password: string;
 }
 
-interface ISignInHeaders {}
+interface ISignInHeaders {
+}
 
 export const signIn = async (
   signInData: ISignInBody,
@@ -13,25 +14,25 @@ export const signIn = async (
     showError: boolean;
     errorMessage: string;
     snackType: string;
-  }>,
+  }>
 ) => {
   const body = signInData;
   const headers = {};
   axiosInstance
-    .post("/token/", body, { headers })
+    .post("/api/token/", body, { headers })
     .then((res) => {
       snackbarConfig.value.snackType = "success";
       snackbarConfig.value.errorMessage = "ورود با موفقیت انجام شد!";
-      localStorage.setItem("auth.access", res.data.access);
-      localStorage.setItem("auth.refresh", res.data.refresh);
+      localStorage.setItem("access", res.data.access);
+      localStorage.setItem("refresh", res.data.refresh);
+      localStorage.setItem("role", res.data.role);
       setTimeout(() => {
         const router = useRouter();
-        router.push("/profile");
+        router.push("/panel");
       }, 1000);
     })
     .catch((err) => {
       snackbarConfig.value.snackType = "error";
-      console.log(err.response.data.detail);
       snackbarConfig.value.errorMessage =
         err.response.data.detail || "مشکلی پیش آمده است.";
     })

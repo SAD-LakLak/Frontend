@@ -116,7 +116,7 @@ async function handleSignIn() {
             class="font-IRANSansXDemiBold w-full text-center mt-6 hover:cursor-pointer"
             dir="rtl"
           >
-            <NuxtLink to="/recoverPass"
+            <NuxtLink to="/resetPass"
             ><u class="hover:cursor-pointer"
             >رمز عبور خود را فراموش کرده‌ام.</u
             >

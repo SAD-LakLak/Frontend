@@ -4,7 +4,7 @@ import Footer from "~/components/Footer.vue";
 import { ref } from "vue";
 import ErrorSnackbar from "~/components/ErrorSnackbar.vue";
 import { replacePersianNumbers } from "~/utils/replacePersianNumbers";
-import { resetPass } from "~/pages/resetPass/resetPass";
+import { resetPass, validateResetToken } from "~/pages/resetPass/resetPass";
 import {
   emailRules
 } from "~/constants/inputRules";
@@ -15,17 +15,25 @@ const snackbarConfig = ref({
   snackType: ""
 });
 
+const route = useRoute();
+const RESET_TOKEN = route.query.token;
+if (RESET_TOKEN) {
+  validateResetToken(RESET_TOKEN as string);
+}
+
+
 const email = ref("");
 
 async function handleRecovery() {
-  const data = {
-    email: replacePersianNumbers(email.value)
-  };
   if (email.value) {
-    console.log(true);
+    const data = {
+      email: replacePersianNumbers(email.value)
+    };
     await resetPass(data, snackbarConfig);
   } else {
-    console.log(false);
+    snackbarConfig.value.showError = true;
+    snackbarConfig.value.errorMessage = "لطفا ایمیل خود را وارد کنید";
+    snackbarConfig.value.snackType = "error";
   }
 }
 </script>
@@ -52,18 +60,10 @@ async function handleRecovery() {
         style="position: absolute"
       >
         <!--        Form-->
-        <div
-          class="w-96 bg-primaryLight rounded-2xl flex-column justify-center align-top px-16 py-8"
-        >
-          <p
-            class="w-full mx-auto text-center font-IRANSansXBold text-3xl mt-4 mb-16"
-          >
-            بازیابی رمز عبور
-          </p>
-          <p
-            class="w-full mx-auto text-center font-IRANSansXDemiBold text-l mb-8" dir="rtl"
-          >
-          برای دریافت لینک بازیابی رمز عبور، شماره تماس خود را وارد کنید.
+        <div class="w-96 bg-primaryLight rounded-2xl flex-column justify-center align-top px-16 py-8">
+          <p class="w-full mx-auto text-center font-IRANSansXBold text-3xl mt-4 mb-16">بازیابی رمز عبور</p>
+          <p class="w-full mx-auto text-center font-IRANSansXDemiBold text-l mb-8" dir="rtl">
+            برای دریافت لینک بازیابی رمز عبور، ایمیل خود را وارد کنید.
           </p>
           <v-text-field
             v-model="email"

@@ -1,25 +1,34 @@
 import axiosInstance from "~/axiosConfig";
 
 interface IPassRecoveryBody {
-  email: string;
+  newPassword: string;
+}
+
+interface IPassRecoveryHeader {
+  token: string;
 }
 
 export const changePass = async (
   recoveryData: IPassRecoveryBody,
+  recoveryHeader: IPassRecoveryHeader,
   snackbarConfig: Ref<{
     showError: boolean;
     errorMessage: string;
     snackType: string;
-  }>,
+  }>
 ) => {
   const body = recoveryData;
+  const { token } = recoveryHeader;
   const headers = {};
-
   axiosInstance
-    .post("/password-recovery/", body, { headers })
+    .post(`/reset_password/${token}`, body, { headers })
     .then(() => {
       snackbarConfig.value.snackType = "success";
-      snackbarConfig.value.errorMessage = "لینک بازیابی رمز عبور با موفقیت ارسال شد!";
+      snackbarConfig.value.errorMessage = "رمز عبور با موفقیت تغییر کرد!";
+      setTimeout(() => {
+        const router = useRouter();
+        router.push("/signIn");
+      }, 1000);
     })
     .catch((err) => {
       snackbarConfig.value.snackType = "error";

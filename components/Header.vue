@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const goToHome = () => {
-  window.history.pushState({}, "", "/"); // تغییر آدرس به صفحه اصلی بدون ریلود
+  const router = useRouter()
+  router.push("/")
 };
 </script>
 
@@ -18,7 +19,7 @@ const goToHome = () => {
         size="large"
         to="/shop"
         class="font-IRANSansXBold tracking-normal"
-        >فروشگاه
+      >فروشگاه
       </v-btn>
       <v-btn
         prepend-icon="mdi-account-circle-outline"
@@ -28,7 +29,7 @@ const goToHome = () => {
         size="large"
         to="/signIn"
         class="font-IRANSansXBold tracking-normal"
-        >ورود/ثبت‌نام
+      >ورود/ثبت‌نام
       </v-btn>
     </div>
 

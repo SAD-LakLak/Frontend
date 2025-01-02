@@ -1,21 +1,31 @@
 <script setup lang="ts">
-import Header from "~/components/Header.vue";
-import Footer from "~/components/Footer.vue";
 import { ref } from "vue";
-import { passwordRules, phoneRules } from "~/constants/inputRules";
+import { passwordRules } from "~/constants/inputRules";
 import { password } from "iron-webcrypto";
 import ErrorSnackbar from "~/components/ErrorSnackbar.vue";
-import { signIn } from "~/pages/signIn/signIn";
-import { hashPassword } from "~/utils/hashPassword";
 import { replacePersianNumbers } from "~/utils/replacePersianNumbers";
+import { changePass } from "~/pages/changePass/changePass";
 
-const phoneNumber = ref("");
+
+const route = useRoute();
+const RESET_TOKEN = route.query.token;
+
+if (!RESET_TOKEN) {
+  const router = useRouter();
+  router.push("/resetPass");
+}
 
 const password = ref("");
+const password2 = ref("");
 const showPassword = ref(false);
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
 };
+
+const password2Rules = [
+  (v: any) => !!v || "تکرار رمز عبور الزامی است",
+  (v: any) => v === password.value || "رمز عبور و تکرار آن باید یکسان باشند"
+];
 
 const snackbarConfig = ref({
   showError: false,
@@ -24,14 +34,14 @@ const snackbarConfig = ref({
 });
 
 async function handlePassChange() {
+  const header = {
+    token: RESET_TOKEN as string
+  };
   const data = {
-    password: replacePersianNumbers(password.value)
+    newPassword: replacePersianNumbers(password.value)
   };
   if (password.value === password2.value) {
-    console.log(true);
-    const hashedPassword = await hashPassword(data.password);
-    data.password = hashedPassword;
-    await changePass(data, snackbarConfig);
+    await changePass(data, header, snackbarConfig);
   } else {
     console.log(false);
   }
@@ -40,13 +50,10 @@ async function handlePassChange() {
 
 <template>
   <div
-    class="w-full flex-col gap-24 px-2 lg:px-16 bg-blue-100 h-full pt-8 pb-4"
+    class="h-screen w-full flex-col gap-24 px-2 lg:px-16 bg-blue-100 pt-8 pb-4"
   >
-    <Header />
-    <br />
-
     <div
-      class="flex items-center justify-center h-full rounded-2xl"
+      class=" h-full flex items-center justify-center rounded-2xl"
       style="position: relative"
     >
       <ErrorSnackbar
@@ -56,23 +63,35 @@ async function handlePassChange() {
         :errorMessage="snackbarConfig.errorMessage"
       />
       <div
-        class="h-3/4 rounded-2xl flex shadow-2xl shadow-gray-800"
+        class=" h-fit rounded-2xl flex shadow-2xl shadow-gray-800"
         style="position: absolute"
       >
         <!--        Form-->
+
+
         <div
-          class="w-96 bg-primaryLight rounded-2xl flex-column justify-center align-top px-16 py-8"
+          class=" w-96 bg-white rounded-2xl flex-column justify-center align-top px-16 py-2"
         >
+
+          <div class="flex flex-1 justify-center items-center h-25">
+            <NuxtLink to="/" class="h-full">
+              <img src="public/logo/mainLogo.svg" class="h-full" @click="()=>{
+             const router  =   useRouter()
+             router.push('/');
+              }" />
+            </NuxtLink>
+          </div>
+
           <p
-            class="w-full mx-auto text-center font-IRANSansXBold text-3xl mt-4 mb-16"
+            class="w-full mx-auto text-center font-IRANSansXBold text-3xl my-2"
           >
             تغییر رمز عبور
           </p>
 
           <p
-            class="w-full mx-auto text-center font-IRANSansXDemiBold text-l mb-8" dir="rtl"
+            class="w-full mx-auto text-center font-IRANSansXDemiBold text-l my-4" dir="rtl"
           >
-          رمز عبور جدید خود را وارد کنید.
+            رمز عبور جدید خود را وارد کنید.
           </p>
 
           <v-text-field
@@ -91,7 +110,7 @@ async function handlePassChange() {
                 class="cursor-pointer"
                 @click="togglePasswordVisibility"
               >
-                {{ showPassword ? 'mdi-eye-off' : 'mdi-eye' }}
+                {{ showPassword ? "mdi-eye-off" : "mdi-eye" }}
               </v-icon>
             </template>
           </v-text-field>
@@ -108,25 +127,23 @@ async function handlePassChange() {
             :rules="password2Rules"
           ></v-text-field>
 
-          <div class="w-full mx-auto justify-center mt-16 gap-5 flex">
+          <div class="w-full mx-auto justify-center mt-4 gap-5 flex">
             <button
               @click="
                 () => {
                   handlePassChange();
                 }
               "
-              class="font-IRANSansXBold rounded-3xl w-fit px-6 py-2 bg-primary"
+              class="font-IRANSansXBold rounded-3xl w-fit px-6 py-2 bg-primary mb-2"
             >
               تغییر رمز عبور
             </button>
           </div>
         </div>
       </div>
-      <img src="public/comingsoon.png" class="rounded-2xl h-3/5" />
     </div>
 
-    <br />
-    <Footer />
+
   </div>
 </template>
 

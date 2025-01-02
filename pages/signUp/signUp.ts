@@ -1,9 +1,14 @@
 import axiosInstance from "~/axiosConfig";
 
 interface ISignUpBody {
-  username: string;
+  phone_number: string;
+  first_name: string;
   email: string;
+  username: string;
+  national_code: string;
   password: string;
+  password2: string;
+  role: string;
 }
 
 export const signUp = async (
@@ -12,13 +17,13 @@ export const signUp = async (
     showError: boolean;
     errorMessage: string;
     snackType: string;
-  }>,
+  }>
 ) => {
   const body = signUpData;
   const headers = {};
   axiosInstance
     .post("/register/", body, { headers })
-    .then((res) => {
+    .then(() => {
       snackbarConfig.value.snackType = "success";
       snackbarConfig.value.errorMessage = "ثبت‌نام با موفقیت انجام شد!";
       setTimeout(() => {

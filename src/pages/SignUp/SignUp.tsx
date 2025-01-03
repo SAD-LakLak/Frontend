@@ -63,6 +63,13 @@ function SignUp() {
             newErrors.national_code = "کد ملی نامعتبر است";
             isValid = false;
         }
+
+
+        if (!formData.email.match(/^\w+@\w+$/)) {
+            newErrors.email = "ایمیل نامعتبر است";
+            isValid = false;
+        }
+
         setErrors(newErrors);
         return isValid;
     };

@@ -1,26 +1,27 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./pages/**/*.{vue,js,ts,jsx,tsx}",
-    "./components/**/*.{vue,js,ts,jsx,tsx}",
-    "./layouts/**/*.{vue,js,ts,jsx,tsx}",
-  ],
-  theme: {
-    extend: {
-      fontFamily: {
-        IRANSansXBold: ["IRANSansXBold"],
-        IRANSansXDemiBold: ["IRANSansXDemiBold"],
-      },
-      colors: {
-        primary: "#3792D5", // MainBlue
-        primaryLight: "#CCEBFF", // MainBlue
-        secondary: "#CCEBFF", // AccentBlue
-        accent: "#E89325", // AccentOrange
-        error: "#FB8C00", // Warning
-        background: "#FBF9EF", // TextLight (برای پس‌زمینه)
-        onBackground: "#011936", // TextDark (رنگ متن برای پس‌زمینه)
-      },
+    content: [
+        "./index.html",
+        "./src/**/*.{js,ts,jsx,tsx}",
+        "./node_modules/@material-tailwind/react/**/*.{js,ts,jsx,tsx}",
+    ],
+    theme: {
+        extend: {
+            fontFamily: {
+                custom: ['IRANSansXBold', 'IRANSansXDemiBold'],
+            },
+            colors: {
+                primary: "#3792D5",
+                primaryMiddle: "#CCEBFF",
+                primaryLight: "#ECF7FF",
+                secondary: "#CCEBFF",
+                accent: "#E89325",
+                error: "#FB8C00",
+                background: "#FBF9EF",
+                onBackground: "#011936",
+                success: "#4CAF50",
+            },
+        },
     },
-  },
-  plugins: [],
+    plugins: [],
 };

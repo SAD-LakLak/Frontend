@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import axiosInstance from "../../constants/axiosConfig.ts";
 import {NotifConfig} from "../../components/Alert.tsx";
+import {useAuth} from "../../context/AuthContext.tsx";
 
 interface ISignInBody {
     username: string;
@@ -21,8 +22,8 @@ export const signIn = async (
         .then((res) => {
             notifConfig.notifType = "success";
             notifConfig.text = "ورود با موفقیت انجام شد!";
-            console.log("res.data:\n")
-            console.log(res.data)
+            const {login} = useAuth()
+            login({accessToken: res.data.access, refreshToken: res.data.refresh})
         })
         .catch((err) => {
             notifConfig.notifType = "error";

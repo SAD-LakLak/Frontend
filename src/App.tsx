@@ -5,6 +5,7 @@ import Home from "./components/Home/Home.tsx";
 import Login from "./pages/Login.tsx";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import SignUp from "./components/SignUp/SignUp.tsx";
 
 const App: React.FC = () => {
     return (
@@ -13,6 +14,7 @@ const App: React.FC = () => {
                 <Routes>
                     <Route path="/" element={<Home/>}/>
                     <Route path="/login" element={<Login/>}/>
+                    <Route path="/signUp" element={<SignUp/>}/>
                     <Route
                         path="/dashboard"
                         element={

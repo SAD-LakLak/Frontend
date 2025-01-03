@@ -8,7 +8,7 @@ function Header() {
         <div className={"flex justify-between h-16 bg-white rounded-2xl px-4"}>
             <div className={"flex flex-1 items-center gap-2 "}>
                 <ShoppingCartOutlined fontSize={"large"} className="text-primary"/>
-                <Link to="/signIn" className={" gap-2 flex items-center"}>
+                <Link to="/login" className={" gap-2 flex items-center"}>
                     <AccountCircleOutlinedIcon fontSize={"large"} className="text-primary"/>
                     <p className={"font-IRANSansXBold text-primary"}>
                         ورود/ثبت نام

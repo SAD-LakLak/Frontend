@@ -1,30 +1,31 @@
 import React from "react";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import {AuthProvider} from "./context/AuthContext";
-import Home from "./components/Home/Home.tsx";
-import Login from "./pages/Login.tsx";
-import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
-import SignUp from "./components/SignUp/SignUp.tsx";
+import LandingPage from "./pages/Landing/page.tsx";
+import Login from "./pages/Login/Login.tsx";
+
+function Dashboard() {
+    return null;
+}
 
 const App: React.FC = () => {
     return (
         <AuthProvider>
-            <Router>
-                <Routes>
-                    <Route path="/" element={<Home/>}/>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/signUp" element={<SignUp/>}/>
-                    <Route
-                        path="/dashboard"
-                        element={
-                            <ProtectedRoute>
-                                <Dashboard/>
-                            </ProtectedRoute>
-                        }
-                    />
-                </Routes>
-            </Router>
+                <Router>
+                    <Routes>
+                        <Route path="/" element={<LandingPage/>}/>
+                        <Route path="/login" element={<Login/>}/>
+                        <Route
+                            path="/dashboard"
+                            element={
+                                <ProtectedRoute>
+                                    <Dashboard/>
+                                </ProtectedRoute>
+                            }
+                        />
+                    </Routes>
+                </Router>
         </AuthProvider>
     );
 };

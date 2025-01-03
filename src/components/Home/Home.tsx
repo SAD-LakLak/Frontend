@@ -15,7 +15,7 @@ function Home({children}: { children: React.ReactNode }) {
             />
 
             {/* محتوا وسط صفحه */}
-            <div className="absolute inset-0 mt-24 mb-20 mx-16 flex justify-center items-center z-10 debug">
+            <div className="absolute inset-0 mt-24 mb-20 mx-16 flex justify-center items-center z-10">
                 {children}
             </div>
 

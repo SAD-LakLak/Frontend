@@ -1,10 +1,11 @@
 import React, {useState} from "react";
 import Home from "../../components/Home/Home.tsx";
-import {Alert, Button, Input} from "@material-tailwind/react";
+import {Button, Input} from "@material-tailwind/react";
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import {signIn} from "./login.ts";
 import {AlertNotif, useAlertNotif} from "../../components/Alert.tsx";
+import {Link, useNavigate} from "react-router-dom";
 
 function Login() {
     const [formData, setFormData] = useState({
@@ -17,10 +18,14 @@ function Login() {
         username: "",
         password: "",
     });
-
+    const navigate = useNavigate()
     const handleSignIn = () => {
         if (validateForm()) {
-            signIn(formData, showNotification);
+            signIn(formData, showNotification).then(() => {
+                setTimeout(() => {
+                    navigate("/");
+                }, 1000);
+            })
         }
     };
 
@@ -56,7 +61,8 @@ function Login() {
             <AlertNotif alertConfig={alertConfig}/>
             <div
                 className="flex w-[55%] rounded-2xl gap-0 bg-primary h-[95%] overflow-hidden shadow-2xl shadow-gray-800">
-                <img className="flex-1 h-full -z-0 object-cover" src="/images/form.png" alt="Background"/>
+                <img className="flex-1 h-full -z-0 object-cover hidden lg:block" src="/images/form.png"
+                     alt="Background"/>
 
                 <div
                     className="flex-1 flex flex-col justify-center items-center bg-primaryMiddle h-full overflow-hidden px-4">
@@ -126,17 +132,17 @@ function Login() {
 
                     {/* Forgot Password Link */}
                     <p className="font-IRANSansXDemiBold w-full text-center mt-6 hover:cursor-pointer" dir="rtl">
-                        <a href="/resetPass" className="hover:underline">
+                        <Link to="/resetPassword" className="hover:underline">
                             رمز عبور خود را فراموش کرده‌ام.
-                        </a>
+                        </Link>
                     </p>
 
                     {/* Sign Up Link */}
                     <p className="font-IRANSansXDemiBold w-full text-center mt-16" dir="rtl">
                         حساب کاربری ندارید؟{" "}
-                        <a href="/signUp" className="hover:underline">
+                        <Link to="/signUp" className="hover:underline">
                             ثبت نام کنید.
-                        </a>
+                        </Link>
                     </p>
 
                 </div>

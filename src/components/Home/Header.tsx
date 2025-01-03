@@ -15,9 +15,9 @@ function Header() {
                     </p>
                 </Link>
             </div>
-            <div className={"flex flex-1 justify-center items-center "}>
+            <Link to={"/"} className={"flex flex-1 justify-center items-center "}>
                 <img src={"./images/logo.png"} className={"h-full"}/>
-            </div>
+            </Link>
             <div className={"flex flex-1  justify-end items-center"}>
                 <Link to="/shop" className={" gap-2 flex items-center"}>
                     <p className={"font-IRANSansXBold text-primary"}>

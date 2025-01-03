@@ -66,7 +66,7 @@ export function AlertNotif({alertConfig}: { alertConfig: NotifConfig | null }) {
     return (
         <>
             <Alert
-                className={`absolute z-30 left-[50%] translate-x-[-50%] font-IRANSansXDemiBold w-fit ${alertColorClass}`}
+                className={`absolute top-0 z-30 left-[50%] translate-x-[-50%] font-IRANSansXDemiBold w-fit ${alertColorClass}`}
                 dir={"rtl"}
                 icon={<Icon/>}
             >{alertConfig.text}

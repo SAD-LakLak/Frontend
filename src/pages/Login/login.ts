@@ -14,20 +14,15 @@ export const signIn = async (
 ) => {
     const body = signInData;
     const notifConfig: NotifConfig = {
-        timeout: 1000, notifType: "success", text: "ورود با موفقیت انجام شد!", show: true
+        timeout: 1500, notifType: "success", text: "ورود با موفقیت انجام شد!", show: true
     };
     axiosInstance
         .post("/api/token/", body)
         .then((res) => {
             notifConfig.notifType = "success";
             notifConfig.text = "ورود با موفقیت انجام شد!";
-            localStorage.setItem("access", res.data.access);
-            localStorage.setItem("refresh", res.data.refresh);
-            localStorage.setItem("role", res.data.role);
-            setTimeout(() => {
-                const navigate = useNavigate()
-                navigate("/panel");
-            }, 1000);
+            console.log("res.data:\n")
+            console.log(res.data)
         })
         .catch((err) => {
             notifConfig.notifType = "error";

@@ -18,7 +18,7 @@ function SignUp() {
         password: "",
         password2: "",
         showPassword: false,
-        role: "customer"
+        role: ""
     });
 
     const [errors, setErrors] = useState({
@@ -65,7 +65,7 @@ function SignUp() {
         }
 
 
-        if (!formData.email.match(/^\w+@\w+$/)) {
+        if (!formData.email.match(/^\w+@\w+\.\w+$/)) {
             newErrors.email = "ایمیل نامعتبر است";
             isValid = false;
         }
@@ -78,7 +78,7 @@ function SignUp() {
         if (validateForm()) {
             formData.phone_number = replacePersianNumbers(formData.phone_number);
             formData.national_code = replacePersianNumbers(formData.national_code);
-            formData.role = "customer";
+            formData.role = "";
 
             signUp(formData, showNotification).then(() => {
                 setTimeout(() => {

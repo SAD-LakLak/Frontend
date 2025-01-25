@@ -4,7 +4,7 @@ import Footer from "./Footer.tsx";
 
 function Home({children}: { children: React.ReactNode }) {
     return (
-        <div className="flex flex-col px-16 py-4 gap-4 bg-primaryLight h-screen justify-between relative">
+        <div className="flex flex-col px-16 py-4 gap-4 bg-primaryLight h-full justify-between relative">
             <Header/>
 
             {/* تصویر زمینه */}

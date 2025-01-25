@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Home from "../../components/Home/Home.tsx";
 import {Button, Input} from "@material-tailwind/react";
 import {VisibilityOffOutlined, VisibilityOutlined} from "@mui/icons-material";
 import {signUp} from "./signUp.ts";
@@ -89,14 +88,11 @@ function SignUp() {
     };
 
     return (
-        <Home>
+        <div className={"flex justify-center items-center w-full h-screen bg-primaryLight"}>
             <AlertNotif alertConfig={alertConfig}/>
-            <div
-                className="flex w-fit  rounded-2xl gap-0 bg-primary h-[95%] overflow-hidden shadow-2xl shadow-gray-800">
-                <img className="flex-1 h-full object-cover hidden lg:block" src="/images/form.png"
-                     alt="Background"/>
+            <div className="flex w-fit rounded-2xl gap-0 bg-primary h-[75%] overflow-hidden shadow-2xl shadow-gray-800">
                 <div className="flex-1 w-[50%] flex flex-col justify-between items-center bg-primaryMiddle h-full px-4">
-                    <p className="w-full text-center text-2xl font-IRANSansXBold text-black mt-4">ثبت‌نام</p>
+                    <p className="w-full text-center text-2xl font-IRANSansXBold text-black mt-8">ثبت‌ نام</p>
                     <div className={"flex flex-col gap-2 w-fit mx-4 "}>
                         <div className={"flex justify-between items-center w-full gap-4"}>
                             <Input
@@ -107,7 +103,7 @@ function SignUp() {
                                 onChange={(e) => setFormData({...formData, first_name: e.target.value})}
                                 color="blue"
                                 variant={"standard"}
-                                className="font-IRANSansXDemiBold "
+                                className="font-IRANSansXDemiBold border-gray-300"
                                 error={errors.first_name !== ""}
                             />
                             <Input
@@ -118,7 +114,7 @@ function SignUp() {
                                 onChange={(e) => setFormData({...formData, phone_number: e.target.value})}
                                 color="blue"
                                 variant={"standard"}
-                                className="font-IRANSansXDemiBold "
+                                className="font-IRANSansXDemiBold border-gray-300"
                                 error={errors.phone_number !== ""}
                             />
                         </div>
@@ -139,7 +135,7 @@ function SignUp() {
                                 onChange={(e) => setFormData({...formData, email: e.target.value})}
                                 color="blue"
                                 variant={"standard"}
-                                className="font-IRANSansXDemiBold"
+                                className="font-IRANSansXDemiBold border-gray-300"
                                 error={errors.email !== ""}
                             />
                             <Input
@@ -150,7 +146,7 @@ function SignUp() {
                                 onChange={(e) => setFormData({...formData, username: e.target.value})}
                                 color="blue"
                                 variant={"standard"}
-                                className="font-IRANSansXDemiBold"
+                                className="font-IRANSansXDemiBold border-gray-300"
                                 error={errors.username !== ""}
                             />
                         </div>
@@ -169,7 +165,7 @@ function SignUp() {
                                 onChange={(e) => setFormData({...formData, national_code: e.target.value})}
                                 color="blue"
                                 variant={"standard"}
-                                className="font-IRANSansXDemiBold "
+                                className="font-IRANSansXDemiBold border-gray-300"
                                 error={errors.national_code !== ""}
                             />
                             {errors.national_code &&
@@ -186,12 +182,12 @@ function SignUp() {
                                     onChange={(e) => setFormData({...formData, password: e.target.value})}
                                     color="blue"
                                     variant={"standard"}
-                                    className="font-IRANSansXDemiBold"
+                                    className="font-IRANSansXDemiBold border-gray-300"
                                     error={errors.password !== ""}
                                 />
                                 <button
                                     type="button"
-                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary"
+                                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary"
                                     onClick={togglePasswordVisibility}
                                 >
                                     {formData.showPassword ? <VisibilityOutlined/> : <VisibilityOffOutlined/>}
@@ -205,7 +201,7 @@ function SignUp() {
                                 onChange={(e) => setFormData({...formData, password2: e.target.value})}
                                 color="blue"
                                 variant={"standard"}
-                                className="font-IRANSansXDemiBold"
+                                className="font-IRANSansXDemiBold border-gray-300"
                                 error={errors.password2 !== ""}
                             />
                         </div>
@@ -218,18 +214,19 @@ function SignUp() {
                     <div className={"flex flex-col items-center w-full mb-4"}>
                         <Button
                             onClick={handleSignUp}
-                            className="font-IRANSansXBold rounded-3xl w-fit px-6 py-2 bg-primary text-white mb-2"
+                            className="font-IRANSansXDemiBold border-gray-300rounded-3xl w-fit px-6 py-2 bg-primary text-white mb-8"
                         >
-                            ثبت‌نام
+                            ثبت‌ نام
                         </Button>
-                        <p className="font-IRANSansXDemiBold w-full text-center mt-2" dir="rtl">
+                        <p className="font-IRANSansXDemiBold border-gray-300w-full text-center mt-2 mb-8" dir="rtl">
                             حساب کاربری دارید؟
-                            <Link to="/login" className="hover:underline">وارد شوید.</Link>
+                            <Link to="/login" className="hover:underline"> وارد شوید.</Link>
                         </p>
                     </div>
                 </div>
+                <img className="flex-1 h-full  -z-0 object-cover hidden lg:block" src="/images/form.png" alt="Background"/>
             </div>
-        </Home>
+        </div>
     );
 }
 

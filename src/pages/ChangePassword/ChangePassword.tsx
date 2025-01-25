@@ -1,6 +1,5 @@
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {AlertNotif, useAlertNotif} from "../../components/Alert";
-import Home from "../../components/Home/Home.tsx";
 import {Button, Input} from "@material-tailwind/react";
 import React, {useEffect, useState} from "react";
 import {VisibilityOffOutlined, VisibilityOutlined} from "@mui/icons-material";

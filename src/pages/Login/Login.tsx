@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Home from "../../components/Home/Home.tsx";
 import {Button, Input} from "@material-tailwind/react";
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
@@ -62,15 +61,12 @@ function Login() {
     const {alertConfig, showNotification} = useAlertNotif();
 
     return (
-        <Home>
+        <div className={"flex justify-center items-center w-full h-screen bg-primaryLight"}>
             <AlertNotif alertConfig={alertConfig}/>
             <div
-                className="flex w-[55%] rounded-2xl gap-0 bg-primary h-[95%] overflow-hidden shadow-2xl shadow-gray-800">
-                <img className="flex-1 h-full -z-0 object-cover hidden lg:block" src="/images/form.png"
-                     alt="Background"/>
-
+                className="flex w-[50%] rounded-2xl gap-0 bg-primary h-[75%] overflow-hidden shadow-2xl shadow-gray-800">
                 <div
-                    className="flex-1 flex flex-col justify-center items-center bg-primaryMiddle h-full overflow-hidden px-4">
+                    className="flex-1 flex  flex-col justify-center items-center bg-primaryMiddle h-full overflow-hidden px-4">
                     <p className="w-full text-center text-3xl font-IRANSansXBold text-black mb-8">ورود</p>
 
                     {/* Username Field */}
@@ -84,7 +80,7 @@ function Login() {
                                 onChange={(e) => setFormData({...formData, username: e.target.value})}
                                 color="blue"
                                 variant={"standard"}
-                                className="font-IRANSansXDemiBold"
+                                className="font-IRANSansXDemiBold border-gray-300"
                                 error={errors.username !== ""}
                             />
                         </div>
@@ -105,12 +101,12 @@ function Login() {
                                     onChange={(e) => setFormData({...formData, password: e.target.value})}
                                     color="blue"
                                     variant={"standard"}
-                                    className="font-IRANSansXDemiBold"
+                                    className="font-IRANSansXDemiBold border-gray-300"
                                     error={errors.password !== ""}
                                 />
                                 <button
                                     type="button"
-                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary"
+                                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary"
                                     onClick={togglePasswordVisibility}
                                 >
                                     {showPassword ? (
@@ -151,8 +147,10 @@ function Login() {
                     </p>
 
                 </div>
+                <img className="flex-1 h-full  -z-0 object-cover hidden lg:block" src="/images/form.png"
+                     alt="Background"/>
             </div>
-        </Home>
+        </div>
     );
 }
 

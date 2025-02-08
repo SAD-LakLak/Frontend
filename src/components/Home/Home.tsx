@@ -23,12 +23,15 @@ const bannerSettings = {
 
 const packageSettings = {
     dots: false,
+    arrows: false,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
     infinite: true,
     autoplay: true,
     autoplaySpeed: 3000,
+    adaptiveHeight: true,
+    rtl: true,
 };
 
 function Home({children}: { children: React.ReactNode }) {
@@ -40,8 +43,9 @@ function Home({children}: { children: React.ReactNode }) {
 
     const fetchPackages = async () => {
         try {
-            const response = await axiosInstance.get(`/packages/?ordering=-creation_date&limit=6`);
+            const response = await axiosInstance.get(`/packages/?ordering=-creation_date`);
             setRecentPackages(response.data.results);
+            console.log(recentPackages);
         } catch (error) {
             console.error('Error fetching packages:', error);
         }
@@ -82,12 +86,10 @@ function Home({children}: { children: React.ReactNode }) {
                     </a>
                 </div>
 
-                <Slider {...packageSettings}>
-                    <div className="flex flex-col gap-2 px-4">
-                        {recentPackages.map((pack: Package) => (
-                            <PackageCard pack={pack}/>
-                        ))}
-                    </div>
+                <Slider {...packageSettings} className="w-3/4 h-[384px] justify-between flex-inline">
+                    {recentPackages.slice(0, 6).map((pack: Package) => (
+                        <PackageCard pack={pack}/>
+                    ))}
                 </Slider>
             </div>
 

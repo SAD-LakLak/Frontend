@@ -5,8 +5,13 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {Link} from "react-router-dom";
+import {Button} from "@material-tailwind/react";
+import axiosInstance from "../../constants/axiosConfig.ts";
+import {useState, useEffect} from 'react';
+import PackageCard from "../PackageCard.tsx";
+import {Package} from '../../types/Package.ts';
 
-const settings = {
+const bannerSettings = {
     dots: true,
     speed: 500,
     slidesToShow: 1,
@@ -16,13 +21,38 @@ const settings = {
     autoplaySpeed: 3000,
 };
 
+const packageSettings = {
+    dots: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
+};
+
 function Home({children}: { children: React.ReactNode }) {
+    const [recentPackages, setRecentPackages] = useState([]);
+
+    useEffect(() => {
+        fetchPackages();
+    }, []);
+
+    const fetchPackages = async () => {
+        try {
+            const response = await axiosInstance.get(`/packages/?ordering=-creation_date&limit=6`);
+            setRecentPackages(response.data.results);
+        } catch (error) {
+            console.error('Error fetching packages:', error);
+        }
+    };
+
     return (
-        <div className="flex flex-col px-16 py-4 gap-4 bg-primaryLight h-auto justify-between relative">
+        <div className="flex flex-col px-16 py-4 gap-8 bg-primaryLight h-auto justify-between relative">
             <Header/>
 
             {/* Banners */}
-            <Slider {...settings}>
+            <Slider {...bannerSettings}>
                 <Link to="/packages">
                     <div>
                     <img className="flex-grow h-full object-cover rounded-2xl"
@@ -40,7 +70,26 @@ function Home({children}: { children: React.ReactNode }) {
             </Slider>
 
             {/* Recent Packages */}
-            
+            <div className="flex gap-8 w-full h-[384px] mt-4">
+                <div className="w-[288px] h-[384px] flex flex-col bg-accentBlue rounded-[35px] p-12 items-end">
+                    <p className="font-IRANSansXBold text-[44px] text-wrap text-right text-white">
+                        جدیدترین بسته‌های لک‌لک
+                    </p>
+                    <a href="/packages" className="mt-auto">
+                        <Button className="font-IRANSansXBold text-[14px] rounded-[35px] px-6 py-4 bg-primary text-white">
+                            مشاهده‌ی همه
+                        </Button>
+                    </a>
+                </div>
+
+                <Slider {...packageSettings}>
+                    <div className="flex flex-col gap-2 px-4">
+                        {recentPackages.map((pack: Package) => (
+                            <PackageCard pack={pack}/>
+                        ))}
+                    </div>
+                </Slider>
+            </div>
 
             <Footer/>
         </div>

@@ -10,12 +10,14 @@ import {Package} from '../../types/Package.ts';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { Tooltip as ReactTooltip } from "react-tooltip";
 import Slider from '@mui/material/Slider';
-import Switch, { SwitchProps } from '@mui/material/Switch';
+import Switch from '@mui/material/Switch';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 function Packages() {
-    const [packs, setPackages] = useState([]);
+    const [packs, setPackages] = useState<Package[]>([]);
     const [filters, setFilters] = useState({
         name: '',
         min_price: '',
@@ -36,8 +38,10 @@ function Packages() {
                 .join('&');
 
             const response = await axiosInstance.get(`/packages/?${query}`);
-
+            
+            console.log(response.data.results);
             setPackages(response.data.results);
+            console.log(packs);
         } catch (error) {
             console.error('Error fetching products:', error);
         }
@@ -51,7 +55,8 @@ function Packages() {
     };
 
     const applyFilters = () => {
-        setAppliedFilters(filters);
+        console.log("Applying filters:", filters);
+        setAppliedFilters({...filters});
         fetchPackages(filters);
     };
 
@@ -92,13 +97,14 @@ function Packages() {
     ];
 
     const handleSliderChange = (event: Event, newValue: number | number[]) => {
-        setFilters({
-            ...filters,
-            min_price: newValue[0].toString(),
-            max_price: newValue[1].toString(),
-        });
-        applyFilters();
+        setFilters(prevFilters => ({
+          ...prevFilters,
+          min_price: newValue[0].toString(),
+          max_price: newValue[1].toString(),
+        }));
     };
+
+    const handleSliderCommit = () => applyFilters();
 
     useEffect(() => {
         fetchPackages(appliedFilters);
@@ -140,15 +146,11 @@ function Packages() {
                             <ArrowUpwardIcon
                             onClick={() => changeOrdering("price")}
                             className="text-primary hover:cursor-pointer"
-                            data-tip="صعودی"
-                            data-for="price-asc"/>
-                            {/* <ReactTooltip id="price-asc" place="bottom" effect="solid" /> */}
+                            titleAccess="صعودی"/>
                             <ArrowDownwardIcon
                             onClick={() => changeOrdering("-price")}
                             className="text-primary hover:cursor-pointer"
-                            data-tip="نزولی"
-                            data-for="price-desc"/>
-                            {/* <ReactTooltip id="price-desc" place="bottom" effect="solid" /> */}
+                            titleAccess="نزولی"/>
                         </div>
                     </div>
                     <div className={"flex justify-between w-full"}>
@@ -157,15 +159,11 @@ function Packages() {
                             <ArrowUpwardIcon
                             onClick={() => changeOrdering("date")}
                             className="text-primary hover:cursor-pointer"
-                            data-tip="صعودی"
-                            data-for="date-asc"/>
-                            {/* <ReactTooltip id="date-asc" place="bottom" effect="solid" /> */}
+                            titleAccess="صعودی"/>
                             <ArrowDownwardIcon
                             onClick={() => changeOrdering("-date")}
                             className="text-primary hover:cursor-pointer"
-                            data-tip="نزولی"
-                            data-for="date-desc"/>
-                            {/* <ReactTooltip id="date-desc" place="bottom" effect="solid" /> */}
+                            titleAccess="نزولی"/>
                         </div>
                     </div>
                     <div className={"flex justify-between w-full"}>
@@ -174,15 +172,11 @@ function Packages() {
                             <ArrowUpwardIcon
                             onClick={() => changeOrdering("score")}
                             className="text-primary hover:cursor-pointer"
-                            data-tip="صعودی"
-                            data-for="score-asc"/>
-                            {/* <ReactTooltip id="score-asc" place="bottom" effect="solid" /> */}
+                            titleAccess="صعودی"/>
                             <ArrowDownwardIcon
                             onClick={() => changeOrdering("-score")}
                             className="text-primary hover:cursor-pointer"
-                            data-tip="نزولی"
-                            data-for="score-desc"/>
-                            {/* <ReactTooltip id="score-desc" place="bottom" effect="solid" /> */}
+                            titleAccess="نزولی"/>
                         </div>
                     </div>
                     <p className={"font-IRANSansXDemiBold mt-2"} dir={"rtl"}>{`فیلترها`}</p>
@@ -196,18 +190,48 @@ function Packages() {
                     <p dir={"rtl"}>{`محدوده قیمت`}</p>
                     <div className={"w-full px-2"}>
                         <Slider
-                            value={sliderValue}
-                            onChange={handleSliderChange}
-                            valueLabelDisplay="auto"
-                            min={0}
-                            max={5000000}
-                            step={100000}
-                            valueLabelFormat={(value) => `${replaceEnglishDigits(value)} تومان`}
+                        value={sliderValue}
+                        onChange={handleSliderChange}
+                        onChangeCommitted={handleSliderCommit}
+                        valueLabelDisplay="auto"
+                        min={0}
+                        max={5000000}
+                        step={100000}
+                        valueLabelFormat={(value) => `${replaceEnglishDigits(value)} تومان`}
                         />
                     </div>
+                    <div className={"flex-column items-end"}>
+                        <div className={"flex justify-between items-center w-full"}>
+                            <p dir={"rtl"}>{`دسته‌بندی`}</p>
+                            <div className={"flex items-center"}>
+                                <Checkbox defaultChecked value=""/>
+                                <p dir={"rtl"}>{`همه`}</p>
+                            </div>
+                        </div>
+                        <div className={"flex items-center"}>
+                            <Checkbox value="pregnant"/>
+                            <p dir={"rtl"}>{`برای والدین منتظر`}</p>
+                        </div>
+                        <div className={"flex items-center"}>
+                            <Checkbox value="to6months"/>
+                            <p dir={"rtl"}>{`برای تولد تا ۶ ماهگی`}</p>
+                        </div>
+                        <div className={"flex items-center"}>
+                            <Checkbox value="to1year"/>
+                            <p dir={"rtl"}>{`برای ۶ ماهگی تا ۱ سالگی`}</p>
+                        </div>
+                        <div className={"flex items-center"}>
+                            <Checkbox value="to2years"/>
+                            <p dir={"rtl"}>{`برای ۱ سالگی تا ۲ سالگی`}</p>
+                        </div>
+                    </div>
+                    <Button onClick={clearFilters}  
+                    className="rounded-full w-fit bg-accentBlue font-IRANSansXDemiBold mt-6">
+                        پاک کردن فیلترها
+                    </Button>
                 </div>
 
-                <div className="grid grid-cols-3 gap-8 w-full h-fit">
+                <div className="grid grid-cols-3 gap-8 w-full h-fit" dir="rtl">
                     {packs.map((pack: Package) => (
                         <PackageCard pack={pack} />
                     ))}

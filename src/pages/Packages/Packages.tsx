@@ -20,12 +20,13 @@ function Packages() {
     const [packs, setPackages] = useState<Package[]>([]);
     const [filters, setFilters] = useState({
         name: '',
-        min_price: '',
-        max_price: '',
+        min_total_price: '',
+        max_total_price: '',
         min_stock: '',
         max_stock: '',
-        ordering: '-name',
+        ordering: '',
         search: '',
+        target_group: '',
     });
 
     const [appliedFilters, setAppliedFilters] = useState({});
@@ -39,9 +40,8 @@ function Packages() {
 
             const response = await axiosInstance.get(`/packages/?${query}`);
             
-            console.log(response.data.results);
+            console.log(response.data);
             setPackages(response.data.results);
-            console.log(packs);
         } catch (error) {
             console.error('Error fetching products:', error);
         }
@@ -63,48 +63,59 @@ function Packages() {
     const clearFilters = () => {
         const resetFilters = {
             name: '',
-            min_price: '',
-            max_price: '',
+            min_total_price: '',
+            max_total_price: '',
             min_stock: '',
             max_stock: '',
             ordering: '-name',
             search: '',
+            target_group: '',
         };
         setFilters(resetFilters);
         setAppliedFilters(resetFilters);
     };
 
     const changeOrdering = (ordering: string) => {
-        setFilters(prevFilters => ({
-            ...prevFilters,
-            ordering: ordering,
-        }));
-        applyFilters();
+        setFilters((prevFilters) => {
+            const newFilters = { ...prevFilters, ordering };
+            setAppliedFilters(newFilters);
+            return newFilters;
+        });
     };
 
     const handleStockSwitchChange = (event) => {
         const isChecked = event.target.checked;
-        setFilters({
-            ...filters,
-            min_stock: isChecked ? "1" : "",
+        setFilters((prevFilters) => {
+            const newFilters = { ...prevFilters, min_stock: isChecked ? "1" : "" };
+            setAppliedFilters(newFilters);
+            return newFilters;
         });
-        applyFilters();
     };
 
     const sliderValue = [
-        filters.min_price ? Number(filters.min_price) : 0,
-        filters.max_price ? Number(filters.max_price) : 5000000,
+        filters.min_total_price ? Number(filters.min_total_price) : 0,
+        filters.max_total_price ? Number(filters.max_total_price) : 5000000,
     ];
 
     const handleSliderChange = (event: Event, newValue: number | number[]) => {
-        setFilters(prevFilters => ({
-          ...prevFilters,
-          min_price: newValue[0].toString(),
-          max_price: newValue[1].toString(),
-        }));
+        setFilters((prevFilters) => {
+            const newFilters = { ...prevFilters, 
+                min_total_price: newValue[0].toString(), 
+                max_total_price: newValue[1].toString() };
+            return newFilters;
+        });
     };
 
     const handleSliderCommit = () => applyFilters();
+
+    const handleChangeGroup = (event) => {
+        const { value } = event.target;
+        setFilters((prevFilters) => {
+            const newFilters = { ...prevFilters, target_group: value === '' ? '' : value };
+            setAppliedFilters(newFilters);
+            return newFilters;
+        });
+    };      
 
     useEffect(() => {
         fetchPackages(appliedFilters);
@@ -144,11 +155,11 @@ function Packages() {
                         <p dir={"rtl"}>{`براساس قیمت`}</p>
                         <div className={"flex gap-2"}>
                             <ArrowUpwardIcon
-                            onClick={() => changeOrdering("price")}
+                            onClick={() => changeOrdering("total_price")}
                             className="text-primary hover:cursor-pointer"
                             titleAccess="صعودی"/>
                             <ArrowDownwardIcon
-                            onClick={() => changeOrdering("-price")}
+                            onClick={() => changeOrdering("-total_price")}
                             className="text-primary hover:cursor-pointer"
                             titleAccess="نزولی"/>
                         </div>
@@ -157,11 +168,11 @@ function Packages() {
                         <p dir={"rtl"}>{`براساس تازگی`}</p>
                         <div className={"flex gap-2"}>
                             <ArrowUpwardIcon
-                            onClick={() => changeOrdering("date")}
+                            onClick={() => changeOrdering("-creation_date")}
                             className="text-primary hover:cursor-pointer"
                             titleAccess="صعودی"/>
                             <ArrowDownwardIcon
-                            onClick={() => changeOrdering("-date")}
+                            onClick={() => changeOrdering("creation_date")}
                             className="text-primary hover:cursor-pointer"
                             titleAccess="نزولی"/>
                         </div>
@@ -170,11 +181,11 @@ function Packages() {
                         <p dir={"rtl"}>{`براساس محبوبیت`}</p>
                         <div className={"flex gap-2"}>
                             <ArrowUpwardIcon
-                            onClick={() => changeOrdering("score")}
+                            onClick={() => changeOrdering("score_sum")}
                             className="text-primary hover:cursor-pointer"
                             titleAccess="صعودی"/>
                             <ArrowDownwardIcon
-                            onClick={() => changeOrdering("-score")}
+                            onClick={() => changeOrdering("-score_sum")}
                             className="text-primary hover:cursor-pointer"
                             titleAccess="نزولی"/>
                         </div>
@@ -200,37 +211,55 @@ function Packages() {
                         valueLabelFormat={(value) => `${replaceEnglishDigits(value)} تومان`}
                         />
                     </div>
-                    <div className={"flex-column items-end"}>
-                        <div className={"flex justify-between items-center w-full"}>
-                            <p dir={"rtl"}>{`دسته‌بندی`}</p>
-                            <div className={"flex items-center"}>
-                                <Checkbox defaultChecked value=""/>
-                                <p dir={"rtl"}>{`همه`}</p>
-                            </div>
-                        </div>
+                <div className={"flex-column items-end"}>
+                    <div className={"flex justify-between items-center w-full"}>
+                        <p dir={"rtl"}>{`دسته‌بندی`}</p>
                         <div className={"flex items-center"}>
-                            <Checkbox value="pregnant"/>
-                            <p dir={"rtl"}>{`برای والدین منتظر`}</p>
-                        </div>
-                        <div className={"flex items-center"}>
-                            <Checkbox value="to6months"/>
-                            <p dir={"rtl"}>{`برای تولد تا ۶ ماهگی`}</p>
-                        </div>
-                        <div className={"flex items-center"}>
-                            <Checkbox value="to1year"/>
-                            <p dir={"rtl"}>{`برای ۶ ماهگی تا ۱ سالگی`}</p>
-                        </div>
-                        <div className={"flex items-center"}>
-                            <Checkbox value="to2years"/>
-                            <p dir={"rtl"}>{`برای ۱ سالگی تا ۲ سالگی`}</p>
+                            <Checkbox 
+                                value="" 
+                                checked={filters.target_group.length === 0} 
+                                onChange={handleChangeGroup} 
+                            />
+                            <p dir={"rtl"}>{`همه`}</p>
                         </div>
                     </div>
-                    <Button onClick={clearFilters}  
-                    className="rounded-full w-fit bg-accentBlue font-IRANSansXDemiBold mt-6">
-                        پاک کردن فیلترها
-                    </Button>
-                </div>
+                    <div className={"flex items-center"}>
+                        <Checkbox value="pregnants" 
+                            checked={filters.target_group.includes("pregnants")}
+                            onChange={handleChangeGroup} 
+                        />
+                        <p dir={"rtl"}>{`برای والدین منتظر`}</p>
+                    </div>
+                    <div className={"flex items-center"}>
+                        <Checkbox value="less_6" 
+                            checked={filters.target_group.includes("less_6")}
+                            onChange={handleChangeGroup} 
+                        />
+                        <p dir={"rtl"}>{`برای تولد تا ۶ ماهگی`}</p>
+                    </div>
+                    <div className={"flex items-center"}>
+                        <Checkbox value="less_12" 
+                            checked={filters.target_group.includes("less_12")}
+                            onChange={handleChangeGroup} 
+                        />
+                        <p dir={"rtl"}>{`برای ۶ ماهگی تا ۱ سالگی`}</p>
+                    </div>
+                    <div className={"flex items-center"}>
+                        <Checkbox value="less_24" 
+                            checked={filters.target_group.includes("less_24")}
+                            onChange={handleChangeGroup} 
+                        />
+                        <p dir={"rtl"}>{`برای ۱ سالگی تا ۲ سالگی`}</p>
+                    </div>
 
+                    </div>
+                    <div className={"flex w-full items-center"}>
+                        <Button onClick={clearFilters}  
+                        className="rounded-full w-fit bg-accentBlue font-IRANSansXDemiBold mt-6">
+                            پاک کردن فیلترها
+                        </Button>
+                    </div>
+                </div>
                 <div className="grid grid-cols-3 gap-8 w-full h-fit" dir="rtl">
                     {packs.map((pack: Package) => (
                         <PackageCard pack={pack} />

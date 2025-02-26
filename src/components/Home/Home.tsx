@@ -64,7 +64,7 @@ function Home({children}: { children: React.ReactNode }) {
                     alt="Banner 1"/>
                     </div>
                 </Link>
-                <Link to="localhost:5173">
+                <Link to="http://localhost:5174/">
                     <div>
                     <img className="flex-grow h-full object-cover rounded-2xl"
                     src="/images/banner2.png"

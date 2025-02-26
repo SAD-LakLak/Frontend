@@ -200,8 +200,8 @@ function Packages() {
                             titleAccess="نزولی"/>
                         </div>
                     </div>
-                    <p className={"font-IRANSansXDemiBold mt-2"} dir={"rtl"}>{`فیلترها`}</p>
-                    <div className={"flex justify-between w-full"}>
+                    <p className={"font-IRANSansXDemiBold mt-4"} dir={"rtl"}>{`فیلترها`}</p>
+                    <div className={"flex justify-between items-center w-full"}>
                         <p dir={"rtl"}>{`فقط محصولات موجود`}</p>
                         <Switch
                         checked={filters.min_stock === "1"}

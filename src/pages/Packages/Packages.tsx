@@ -10,10 +10,13 @@ import {Package} from '../../types/Package.ts';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Slider from '@mui/material/Slider';
 import Switch from '@mui/material/Switch';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
+import Stack from '@mui/material/Stack';
 import Checkbox from '@mui/material/Checkbox';
 
 function Packages() {
@@ -27,9 +30,13 @@ function Packages() {
         ordering: '',
         search: '',
         target_group: '',
+        page: 1,
+        page_size: 9,
     });
 
     const [appliedFilters, setAppliedFilters] = useState({});
+
+    const [totalPages, setTotalPages] = useState(1);
 
     const fetchPackages = async (filtersToApply) => {
         try {
@@ -42,8 +49,9 @@ function Packages() {
             
             console.log(response.data);
             setPackages(response.data.results);
+            setTotalPages(Math.ceil(response.data.count / filters.page_size));
         } catch (error) {
-            console.error('Error fetching products:', error);
+            console.error('Error fetching packages:', error);
         }
     };
 
@@ -70,6 +78,8 @@ function Packages() {
             ordering: '-name',
             search: '',
             target_group: '',
+            page: filters.page,
+            page_size: 9,
         };
         setFilters(resetFilters);
         setAppliedFilters(resetFilters);
@@ -122,7 +132,7 @@ function Packages() {
     }, [appliedFilters]);
 
     return (
-        <div className="flex flex-col px-16 py-4 gap-8 bg-primaryLight h-auto justify-between relative">
+        <div className="flex flex-col px-16 py-4 gap-8 bg-primaryLight h-auto justify-center relative">
             <Header/>
 
             {/* Banner */}
@@ -133,8 +143,8 @@ function Packages() {
             </div>
 
             {/* Packages */}
-            <div className="flex justify-between gap-8 w-full m-4">
-                <div className="w-[288px] h-fit flex flex-col gap-4 bg-white rounded-[35px] py-8 px-6 items-start">
+            <div className="flex justify-between gap-8 w-full">
+                <div className="w-[312px] h-fit flex flex-col gap-4 bg-white rounded-[35px] py-8 px-6 items-start">
                     <p dir={"rtl"}>{`${replaceEnglishDigits(packs.length)} محصول`}</p>
                     <div className={"relative w-full max-w-lg"}> {/* Search Bar */}
                         <SearchIcon
@@ -253,9 +263,9 @@ function Packages() {
                     </div>
 
                     </div>
-                    <div className={"flex w-full items-center"}>
+                    <div className={"flex w-full justify-center"}>
                         <Button onClick={clearFilters}  
-                        className="rounded-full w-fit bg-accentBlue font-IRANSansXDemiBold mt-6">
+                        className="rounded-full w-fit bg-accentBlue font-IRANSansXDemiBold mt-4">
                             پاک کردن فیلترها
                         </Button>
                     </div>
@@ -266,7 +276,18 @@ function Packages() {
                     ))}
                 </div>
             </div>
-
+            {/* Pagination */}
+            <Stack spacing={2} className="flex w-full items-end mt-8">
+                <Pagination count={totalPages}
+                color="primary"
+                renderItem={(item) => (
+                    <PaginationItem
+                    slots={{ previous: ArrowForwardIcon, next: ArrowBackIcon }}
+                    {...item}
+                    />
+                )} />
+            </Stack>
+            
             <Footer/>
         </div>
     );

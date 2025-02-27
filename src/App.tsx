@@ -10,6 +10,7 @@ import ChangePassword from "./pages/ChangePassword/ChangePassword.tsx";
 import Packages from "./pages/Packages/Packages.tsx";
 import SinglePackage from "./pages/Packages/id/SinglePackage.tsx";
 import Dashboard from "./pages/Dashboard/Dashboad.tsx";
+import Tickets from "./pages/Tickets/Tickets.tsx";
 
 
 const App: React.FC = () => {
@@ -22,6 +23,7 @@ const App: React.FC = () => {
                     <Route path="/signUp" element={<SignUp/>}/>
                     <Route path="/resetPassword" element={<ResetPassword/>}/>
                     <Route path="/changePassword" element={<ChangePassword/>}/>
+                    <Route path="/tickets" element={<Tickets/>}/>
                     <Route path="/packages" element={<Packages/>}/>
                     <Route path="/packages/:id" element={<SinglePackage/>}/>
                     <Route

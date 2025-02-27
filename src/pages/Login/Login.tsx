@@ -75,7 +75,7 @@ function Login() {
                         <div className="w-full">
                             <Input
                                 label="نام کاربری"
-                                placeholder="09193726908"
+                                placeholder="نام کاربری خود را وارد کنید"
                                 type="text"
                                 value={formData.username}
                                 onChange={(e) => setFormData({...formData, username: e.target.value})}

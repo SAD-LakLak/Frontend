@@ -27,7 +27,7 @@ function DashboardMenu() {
                 }} className="rounded-full w-[80%] bg-primary font-IRANSansXDemiBold">تاریخچه پرداخت‌ها</Button>
                 <Button onClick={() => {
                     navigate("/tickets")
-                }} className="rounded-full w-[80%] bg-primary font-IRANSansXDemiBold">پشتیبانی</Button>
+                }} className="rounded-full w-[80%] bg-primary font-IRANSansXDemiBold">تیکت‌ها</Button>
             </div>
             <Button onClick={() => {
                 auth.logout()

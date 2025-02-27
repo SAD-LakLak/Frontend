@@ -11,6 +11,8 @@ import Packages from "./pages/Packages/Packages.tsx";
 import SinglePackage from "./pages/Packages/id/SinglePackage.tsx";
 import Dashboard from "./pages/Dashboard/Dashboad.tsx";
 import Tickets from "./pages/Tickets/Tickets.tsx";
+import SingleTicket from "./pages/Tickets/id/SingleTickets.tsx";
+import CreateTicket from "./pages/Tickets/CreateTicket.tsx";
 
 
 const App: React.FC = () => {
@@ -23,17 +25,20 @@ const App: React.FC = () => {
                     <Route path="/signUp" element={<SignUp/>}/>
                     <Route path="/resetPassword" element={<ResetPassword/>}/>
                     <Route path="/changePassword" element={<ChangePassword/>}/>
-                    <Route path="/tickets" element={<Tickets/>}/>
+                    <Route path="/tickets" element={
+                        <ProtectedRoute> <Tickets/> </ProtectedRoute>
+                    }/>
+                    <Route path="/tickets/:id" element={
+                        <ProtectedRoute> <SingleTicket/> </ProtectedRoute>
+                    }/>
+                    <Route path="/tickets/create" element={
+                        <ProtectedRoute> <CreateTicket/> </ProtectedRoute>
+                    }/>
                     <Route path="/packages" element={<Packages/>}/>
                     <Route path="/packages/:id" element={<SinglePackage/>}/>
                     <Route
-                        path="/dashboard"
-                        element={
-                            <ProtectedRoute>
-                                <Dashboard/>
-                            </ProtectedRoute>
-                        }
-                    />
+                        path="/dashboard" element={<ProtectedRoute> <Dashboard/> </ProtectedRoute>
+                    }/>
                 </Routes>
             </Router>
         </AuthProvider>

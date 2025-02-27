@@ -1,8 +1,12 @@
 export interface Package {
+    id: string,
     name: string,
     total_price: number,
-    image: string[],
+    image: string,
     is_active: boolean,
     summary: string,
-    creation_date: Date
+    creation_date: Date,
+    description: string,
+    score: string,
+    target_group: string,
 }

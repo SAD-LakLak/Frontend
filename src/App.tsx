@@ -8,32 +8,39 @@ import SignUp from "./pages/SignUp/SignUp.tsx";
 import ResetPassword from "./pages/ResetPassword/ResetPassword.tsx";
 import ChangePassword from "./pages/ChangePassword/ChangePassword.tsx";
 import Packages from "./pages/Packages/Packages.tsx";
+import SinglePackage from "./pages/Packages/id/SinglePackage.tsx";
+import Dashboard from "./pages/Dashboard/Dashboad.tsx";
+import Tickets from "./pages/Tickets/Tickets.tsx";
+import SingleTicket from "./pages/Tickets/id/SingleTickets.tsx";
+import CreateTicket from "./pages/Tickets/CreateTicket.tsx";
 
-function Dashboard() {
-    return null;
-}
 
 const App: React.FC = () => {
     return (
         <AuthProvider>
-                <Router>
-                    <Routes>
-                        <Route path="/" element={<LandingPage/>}/>
-                        <Route path="/login" element={<Login/>}/>
-                        <Route path="/signUp" element={<SignUp/>}/>
-                        <Route path="/resetPassword" element={<ResetPassword/>}/>
-                        <Route path="/changePassword" element={<ChangePassword/>}/>
-                        <Route path="/packages" element={<Packages/>}/>
-                        <Route
-                            path="/dashboard"
-                            element={
-                                <ProtectedRoute>
-                                    <Dashboard/>
-                                </ProtectedRoute>
-                            }
-                        />
-                    </Routes>
-                </Router>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<LandingPage/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/signUp" element={<SignUp/>}/>
+                    <Route path="/resetPassword" element={<ResetPassword/>}/>
+                    <Route path="/changePassword" element={<ChangePassword/>}/>
+                    <Route path="/tickets" element={
+                        <ProtectedRoute> <Tickets/> </ProtectedRoute>
+                    }/>
+                    <Route path="/tickets/:id" element={
+                        <ProtectedRoute> <SingleTicket/> </ProtectedRoute>
+                    }/>
+                    <Route path="/tickets/create" element={
+                        <ProtectedRoute> <CreateTicket/> </ProtectedRoute>
+                    }/>
+                    <Route path="/packages" element={<Packages/>}/>
+                    <Route path="/packages/:id" element={<SinglePackage/>}/>
+                    <Route
+                        path="/dashboard" element={<ProtectedRoute> <Dashboard/> </ProtectedRoute>
+                    }/>
+                </Routes>
+            </Router>
         </AuthProvider>
     );
 };

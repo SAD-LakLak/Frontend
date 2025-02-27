@@ -20,7 +20,7 @@ function Footer() {
                     </div>
                 </div>
                 <div>
-                    <img className={"mx-8"} src={"./images/logo.png"} style={{ width: "136px", height: "121px" }}/>
+                    <img className={"mx-8"} src={"/images/logo.png"} style={{ width: "136px", height: "121px" }}/>
                 </div>
             </div>
             <p dir={"rtl"} className={"font-IRANSansXMedium text-sm size-14px text-onBackground"}>

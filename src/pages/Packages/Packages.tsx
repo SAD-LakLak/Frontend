@@ -18,6 +18,7 @@ import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Stack from '@mui/material/Stack';
 import Checkbox from '@mui/material/Checkbox';
+import {Link} from "react-router-dom";
 
 function Packages() {
     const [packs, setPackages] = useState<Package[]>([]);
@@ -44,10 +45,7 @@ function Packages() {
                 .filter(([_, value]) => value !== '')
                 .map(([key, value]) => `${key}=${value}`)
                 .join('&');
-
             const response = await axiosInstance.get(`/packages/?${query}`);
-            
-            console.log(response.data);
             setPackages(response.data.results);
             setTotalPages(Math.ceil(response.data.count / filters.page_size));
         } catch (error) {
@@ -87,7 +85,7 @@ function Packages() {
 
     const changeOrdering = (ordering: string) => {
         setFilters((prevFilters) => {
-            const newFilters = { ...prevFilters, ordering };
+            const newFilters = {...prevFilters, ordering};
             setAppliedFilters(newFilters);
             return newFilters;
         });
@@ -96,7 +94,7 @@ function Packages() {
     const handleStockSwitchChange = (event) => {
         const isChecked = event.target.checked;
         setFilters((prevFilters) => {
-            const newFilters = { ...prevFilters, min_stock: isChecked ? "1" : "" };
+            const newFilters = {...prevFilters, min_stock: isChecked ? "1" : ""};
             setAppliedFilters(newFilters);
             return newFilters;
         });
@@ -109,9 +107,11 @@ function Packages() {
 
     const handleSliderChange = (event: Event, newValue: number | number[]) => {
         setFilters((prevFilters) => {
-            const newFilters = { ...prevFilters, 
-                min_total_price: newValue[0].toString(), 
-                max_total_price: newValue[1].toString() };
+            const newFilters = {
+                ...prevFilters,
+                min_total_price: newValue[0].toString(),
+                max_total_price: newValue[1].toString()
+            };
             return newFilters;
         });
     };
@@ -119,13 +119,13 @@ function Packages() {
     const handleSliderCommit = () => applyFilters();
 
     const handleChangeGroup = (event) => {
-        const { value } = event.target;
+        const {value} = event.target;
         setFilters((prevFilters) => {
-            const newFilters = { ...prevFilters, target_group: value === '' ? '' : value };
+            const newFilters = {...prevFilters, target_group: value === '' ? '' : value};
             setAppliedFilters(newFilters);
             return newFilters;
         });
-    };      
+    };
 
     useEffect(() => {
         fetchPackages(appliedFilters);
@@ -138,8 +138,8 @@ function Packages() {
             {/* Banner */}
             <div className="flex h-[280px] rounded-2xl">
                 <img className="flex w-full h-full object-cover rounded-2xl"
-                src="/images/banner-packages.png"
-                alt="Packages Banner"/>
+                     src="/images/banner-packages.png"
+                     alt="Packages Banner"/>
             </div>
 
             {/* Packages */}
@@ -165,129 +165,133 @@ function Packages() {
                         <p dir={"rtl"}>{`براساس قیمت`}</p>
                         <div className={"flex gap-2"}>
                             <ArrowUpwardIcon
-                            onClick={() => changeOrdering("total_price")}
-                            className="text-primary hover:cursor-pointer"
-                            titleAccess="صعودی"/>
+                                onClick={() => changeOrdering("total_price")}
+                                className="text-primary hover:cursor-pointer"
+                                titleAccess="صعودی"/>
                             <ArrowDownwardIcon
-                            onClick={() => changeOrdering("-total_price")}
-                            className="text-primary hover:cursor-pointer"
-                            titleAccess="نزولی"/>
+                                onClick={() => changeOrdering("-total_price")}
+                                className="text-primary hover:cursor-pointer"
+                                titleAccess="نزولی"/>
                         </div>
                     </div>
                     <div className={"flex justify-between w-full"}>
                         <p dir={"rtl"}>{`براساس تازگی`}</p>
                         <div className={"flex gap-2"}>
                             <ArrowUpwardIcon
-                            onClick={() => changeOrdering("-creation_date")}
-                            className="text-primary hover:cursor-pointer"
-                            titleAccess="صعودی"/>
+                                onClick={() => changeOrdering("-creation_date")}
+                                className="text-primary hover:cursor-pointer"
+                                titleAccess="صعودی"/>
                             <ArrowDownwardIcon
-                            onClick={() => changeOrdering("creation_date")}
-                            className="text-primary hover:cursor-pointer"
-                            titleAccess="نزولی"/>
+                                onClick={() => changeOrdering("creation_date")}
+                                className="text-primary hover:cursor-pointer"
+                                titleAccess="نزولی"/>
                         </div>
                     </div>
                     <div className={"flex justify-between w-full"}>
                         <p dir={"rtl"}>{`براساس محبوبیت`}</p>
                         <div className={"flex gap-2"}>
                             <ArrowUpwardIcon
-                            onClick={() => changeOrdering("score_sum")}
-                            className="text-primary hover:cursor-pointer"
-                            titleAccess="صعودی"/>
+                                onClick={() => changeOrdering("score_sum")}
+                                className="text-primary hover:cursor-pointer"
+                                titleAccess="صعودی"/>
                             <ArrowDownwardIcon
-                            onClick={() => changeOrdering("-score_sum")}
-                            className="text-primary hover:cursor-pointer"
-                            titleAccess="نزولی"/>
+                                onClick={() => changeOrdering("-score_sum")}
+                                className="text-primary hover:cursor-pointer"
+                                titleAccess="نزولی"/>
                         </div>
                     </div>
                     <p className={"font-IRANSansXDemiBold mt-4"} dir={"rtl"}>{`فیلترها`}</p>
                     <div className={"flex justify-between items-center w-full"}>
                         <p dir={"rtl"}>{`فقط محصولات موجود`}</p>
                         <Switch
-                        checked={filters.min_stock === "1"}
-                        onChange={handleStockSwitchChange}
-                        color="primary"/>
+                            checked={filters.min_stock === "1"}
+                            onChange={handleStockSwitchChange}
+                            color="primary"/>
                     </div>
                     <p dir={"rtl"}>{`محدوده قیمت`}</p>
                     <div className={"w-full px-2"}>
                         <Slider
-                        value={sliderValue}
-                        onChange={handleSliderChange}
-                        onChangeCommitted={handleSliderCommit}
-                        valueLabelDisplay="auto"
-                        min={0}
-                        max={5000000}
-                        step={100000}
-                        valueLabelFormat={(value) => `${replaceEnglishDigits(value)} تومان`}
+                            value={sliderValue}
+                            onChange={handleSliderChange}
+                            onChangeCommitted={handleSliderCommit}
+                            valueLabelDisplay="auto"
+                            min={0}
+                            max={5000000}
+                            step={100000}
+                            valueLabelFormat={(value) => `${replaceEnglishDigits(value)} تومان`}
                         />
                     </div>
-                <div className={"flex-column items-end"}>
-                    <div className={"flex justify-between items-center w-full"}>
-                        <p dir={"rtl"}>{`دسته‌بندی`}</p>
-                        <div className={"flex items-center"}>
-                            <Checkbox 
-                                value="" 
-                                checked={filters.target_group.length === 0} 
-                                onChange={handleChangeGroup} 
-                            />
-                            <p dir={"rtl"}>{`همه`}</p>
+                    <div className={"flex-column items-end"}>
+                        <div className={"flex justify-between items-center w-full"}>
+                            <p dir={"rtl"}>{`دسته‌بندی`}</p>
+                            <div className={"flex items-center"}>
+                                <Checkbox
+                                    value=""
+                                    checked={filters.target_group.length === 0}
+                                    onChange={handleChangeGroup}
+                                />
+                                <p dir={"rtl"}>{`همه`}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className={"flex items-center"}>
-                        <Checkbox value="pregnants" 
-                            checked={filters.target_group.includes("pregnants")}
-                            onChange={handleChangeGroup} 
-                        />
-                        <p dir={"rtl"}>{`برای والدین منتظر`}</p>
-                    </div>
-                    <div className={"flex items-center"}>
-                        <Checkbox value="less_6" 
-                            checked={filters.target_group.includes("less_6")}
-                            onChange={handleChangeGroup} 
-                        />
-                        <p dir={"rtl"}>{`برای تولد تا ۶ ماهگی`}</p>
-                    </div>
-                    <div className={"flex items-center"}>
-                        <Checkbox value="less_12" 
-                            checked={filters.target_group.includes("less_12")}
-                            onChange={handleChangeGroup} 
-                        />
-                        <p dir={"rtl"}>{`برای ۶ ماهگی تا ۱ سالگی`}</p>
-                    </div>
-                    <div className={"flex items-center"}>
-                        <Checkbox value="less_24" 
-                            checked={filters.target_group.includes("less_24")}
-                            onChange={handleChangeGroup} 
-                        />
-                        <p dir={"rtl"}>{`برای ۱ سالگی تا ۲ سالگی`}</p>
-                    </div>
+                        <div className={"flex items-center"}>
+                            <Checkbox value="pregnants"
+                                      checked={filters.target_group.includes("pregnants")}
+                                      onChange={handleChangeGroup}
+                            />
+                            <p dir={"rtl"}>{`برای والدین منتظر`}</p>
+                        </div>
+                        <div className={"flex items-center"}>
+                            <Checkbox value="less_6"
+                                      checked={filters.target_group.includes("less_6")}
+                                      onChange={handleChangeGroup}
+                            />
+                            <p dir={"rtl"}>{`برای تولد تا ۶ ماهگی`}</p>
+                        </div>
+                        <div className={"flex items-center"}>
+                            <Checkbox value="less_12"
+                                      checked={filters.target_group.includes("less_12")}
+                                      onChange={handleChangeGroup}
+                            />
+                            <p dir={"rtl"}>{`برای ۶ ماهگی تا ۱ سالگی`}</p>
+                        </div>
+                        <div className={"flex items-center"}>
+                            <Checkbox value="less_24"
+                                      checked={filters.target_group.includes("less_24")}
+                                      onChange={handleChangeGroup}
+                            />
+                            <p dir={"rtl"}>{`برای ۱ سالگی تا ۲ سالگی`}</p>
+                        </div>
 
                     </div>
                     <div className={"flex w-full justify-center"}>
-                        <Button onClick={clearFilters}  
-                        className="rounded-full w-fit bg-accentBlue font-IRANSansXDemiBold mt-4">
+                        <Button onClick={clearFilters}
+                                className="rounded-full w-fit bg-accentBlue font-IRANSansXDemiBold mt-4">
                             پاک کردن فیلترها
                         </Button>
                     </div>
                 </div>
+
+                {/*packs*/}
                 <div className="grid grid-cols-3 gap-8 w-full h-fit" dir="rtl">
                     {packs.map((pack: Package) => (
-                        <PackageCard pack={pack} />
+                        <Link to={`/packages/${pack.id}`}> <PackageCard pack={pack}/></Link>
                     ))}
                 </div>
             </div>
+
+
             {/* Pagination */}
             <Stack spacing={2} className="flex w-full items-end mt-8">
                 <Pagination count={totalPages}
-                color="primary"
-                renderItem={(item) => (
-                    <PaginationItem
-                    slots={{ previous: ArrowForwardIcon, next: ArrowBackIcon }}
-                    {...item}
-                    />
-                )} />
+                            color="primary"
+                            renderItem={(item) => (
+                                <PaginationItem
+                                    slots={{previous: ArrowForwardIcon, next: ArrowBackIcon}}
+                                    {...item}
+                                />
+                            )}/>
             </Stack>
-            
+
             <Footer/>
         </div>
     );

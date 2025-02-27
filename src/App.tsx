@@ -9,10 +9,8 @@ import ResetPassword from "./pages/ResetPassword/ResetPassword.tsx";
 import ChangePassword from "./pages/ChangePassword/ChangePassword.tsx";
 import Packages from "./pages/Packages/Packages.tsx";
 import SinglePackage from "./pages/Packages/id/SinglePackage.tsx";
+import Dashboard from "./pages/Dashboard/Dashboad.tsx";
 
-function Dashboard() {
-    return null;
-}
 
 const App: React.FC = () => {
     return (

@@ -7,7 +7,7 @@ function Header() {
     return (
         <div className={"flex justify-between h-24 bg-white rounded-2xl px-8"}>
             <div className={"flex flex-1 justify-start items-center mx-8"}>
-                <Link to="/shop" className={"gap-2 flex items-center"}>
+                <Link to="/packages" className={"gap-2 flex items-center"}>
                     <p className={"font-IRANSansXBold text-primary"}>
                         بسته‌ها
                     </p>

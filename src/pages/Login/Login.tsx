@@ -35,11 +35,12 @@ function Login() {
 
     // Custom validation rules
     const validateForm = () => {
+
         let isValid = true;
         const newErrors = {username: "", password: ""};
 
         // Username validation
-        if (!formData.password.match(/^\w{4,12}$/)) {
+        if (!formData.username.match(/^\w{4,12}$/)) {
             newErrors.username = "نام کاربری معتبر نیست.";
             isValid = false;
         }

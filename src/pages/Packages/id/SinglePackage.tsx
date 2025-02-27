@@ -71,7 +71,7 @@ export default function SinglePackage() {
                 {/*right section*/}
                 <div
                     className={"flex w-1/5 h-fit gap-8 justify-between items-center bg-white rounded-2xl shadow-2xl pl-8 px-4 py-4"}>
-                    <div className={"flex flex-col w-full h-full debug justify-between gap-4 items-center"}>
+                    <div className={"flex flex-col w-full h-full justify-between gap-4 items-center"}>
                         <p className={"font-IRANSansXBold w-full text-center text-xl text-primary"}>
                             نظرات خریداران
                         </p>

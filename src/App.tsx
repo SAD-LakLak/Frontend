@@ -8,6 +8,7 @@ import SignUp from "./pages/SignUp/SignUp.tsx";
 import ResetPassword from "./pages/ResetPassword/ResetPassword.tsx";
 import ChangePassword from "./pages/ChangePassword/ChangePassword.tsx";
 import Packages from "./pages/Packages/Packages.tsx";
+import SinglePackage from "./pages/Packages/id/SinglePackage.tsx";
 
 function Dashboard() {
     return null;
@@ -16,24 +17,25 @@ function Dashboard() {
 const App: React.FC = () => {
     return (
         <AuthProvider>
-                <Router>
-                    <Routes>
-                        <Route path="/" element={<LandingPage/>}/>
-                        <Route path="/login" element={<Login/>}/>
-                        <Route path="/signUp" element={<SignUp/>}/>
-                        <Route path="/resetPassword" element={<ResetPassword/>}/>
-                        <Route path="/changePassword" element={<ChangePassword/>}/>
-                        <Route path="/packages" element={<Packages/>}/>
-                        <Route
-                            path="/dashboard"
-                            element={
-                                <ProtectedRoute>
-                                    <Dashboard/>
-                                </ProtectedRoute>
-                            }
-                        />
-                    </Routes>
-                </Router>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<LandingPage/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/signUp" element={<SignUp/>}/>
+                    <Route path="/resetPassword" element={<ResetPassword/>}/>
+                    <Route path="/changePassword" element={<ChangePassword/>}/>
+                    <Route path="/packages" element={<Packages/>}/>
+                    <Route path="/packages/:id" element={<SinglePackage/>}/>
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <ProtectedRoute>
+                                <Dashboard/>
+                            </ProtectedRoute>
+                        }
+                    />
+                </Routes>
+            </Router>
         </AuthProvider>
     );
 };

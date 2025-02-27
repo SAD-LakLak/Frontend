@@ -46,7 +46,6 @@ function Packages() {
                 .join('&');
 
             const response = await axiosInstance.get(`/packages/?${query}`);
-            
             console.log(response.data);
             setPackages(response.data.results);
             setTotalPages(Math.ceil(response.data.count / filters.page_size));

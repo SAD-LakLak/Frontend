@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard/Dashboad.tsx";
 import Tickets from "./pages/Tickets/Tickets.tsx";
 import SingleTicket from "./pages/Tickets/id/SingleTickets.tsx";
 import CreateTicket from "./pages/Tickets/CreateTicket.tsx";
+import Order from "./pages/Order/Order.tsx";
 
 
 const App: React.FC = () => {
@@ -36,6 +37,7 @@ const App: React.FC = () => {
                     }/>
                     <Route path="/packages" element={<Packages/>}/>
                     <Route path="/packages/:id" element={<SinglePackage/>}/>
+                    <Route path="/order" element={<Order/>}/>
                     <Route
                         path="/dashboard" element={<ProtectedRoute> <Dashboard/> </ProtectedRoute>
                     }/>

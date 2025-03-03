@@ -2,7 +2,7 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
     // TODO: READ FROM .ENV
-    baseURL: "https://api.laklakbox.ir/api",
+    baseURL: "http://5.34.203.201:8000/api",
     timeout: 5000,
 });
 

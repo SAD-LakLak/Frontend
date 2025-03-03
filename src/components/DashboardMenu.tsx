@@ -8,11 +8,8 @@ function DashboardMenu() {
     const navigate = useNavigate()
 
     return (
-        <div className={"flex w-1/4 flex-col gap-4 rounded-2xl bg-white items-center justify-between"}>
-            <Link className={"hover:cursor-pointer w-1/2 mt-4"} to={"/"}>
-                <img src={"/images/logo.png"} alt="logo"/>
-            </Link>
-            <div className={"flex flex-col gap-4 w-full items-center mb-16"}>
+        <div className={"flex w-1/4 h-fit flex-col gap-4 rounded-2xl bg-white items-center justify-start py-8"}>
+            <div className={"flex flex-col gap-4 w-full items-center"}>
                 <Button onClick={() => {
                     navigate("/dashboard")
                 }} className="rounded-full w-[80%] bg-primary font-IRANSansXDemiBold">حساب کاربری</Button>
@@ -33,7 +30,6 @@ function DashboardMenu() {
                 auth.logout()
                 navigate("/")
             }} className="rounded-full w-[80%] bg-accent font-IRANSansXDemiBold">خروج از حساب کاربری</Button>
-            <p className={"font-IRANSansXDemiBold text-xs mb-4"}>© LakLak 2024</p>
         </div>
 
     );

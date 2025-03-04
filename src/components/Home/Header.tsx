@@ -4,9 +4,12 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import {Link} from "react-router-dom";
 import {useAuth} from "../../context/AuthContext.tsx";
+import {Badge} from "@material-tailwind/react";
+import {useCart} from "../../context/CartContext.tsx";
 
 function Header() {
     const {isAuthenticated} = useAuth()
+    const {count} = useCart()
     return (
         <div className={"flex justify-between h-24 bg-white rounded-2xl px-8"}>
             <div className={"flex flex-1 justify-start items-center mx-8"}>
@@ -36,7 +39,9 @@ function Header() {
                     {/*<p className={"font-IRANSansXBold text-primary"}>*/}
                     {/*    سبد خرید*/}
                     {/*</p>*/}
-                    <ShoppingCartOutlined fontSize={"large"} className="text-primary"/>
+                    <Badge content={count} placement="top-start" color={'orange'} className={`${count > 0 ? "" : "opacity-0"}`}>
+                        <ShoppingCartOutlined fontSize={"large"} className="text-primary"/>
+                    </Badge>
                 </Link>
             </div>
         </div>

@@ -14,6 +14,7 @@ import Tickets from "./pages/Tickets/Tickets.tsx";
 import SingleTicket from "./pages/Tickets/id/SingleTickets.tsx";
 import CreateTicket from "./pages/Tickets/CreateTicket.tsx";
 import {CartProvider} from "./context/CartContext.tsx";
+import Cart from "./pages/Cart/Cart.tsx";
 
 
 const App: React.FC = () => {
@@ -40,6 +41,9 @@ const App: React.FC = () => {
                         <Route path="/packages/:id" element={<SinglePackage/>}/>
                         <Route
                             path="/dashboard" element={<ProtectedRoute> <Dashboard/> </ProtectedRoute>
+                        }/>
+                        <Route
+                            path="/cart" element={<ProtectedRoute> <Cart/> </ProtectedRoute>
                         }/>
                     </Routes>
                 </Router>

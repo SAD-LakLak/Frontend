@@ -7,10 +7,12 @@ import {replaceEnglishDigits} from "../../../utils/replacePersianNumbers.ts";
 import {Button} from "@material-tailwind/react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SelectedComment from "../../../components/SelectedComment.tsx";
+import {useCart} from "../../../context/CartContext.tsx";
 
 export default function SinglePackage() {
     // const {id} = useParams();
     const [pack, setPack] = useState<Package>({} as Package);
+    const {cart, addToCart, updateQuantity} = useCart();
 
     async function fetchProduct() {
         const response = await axiosInstance.get(`/packages/?`);
@@ -21,6 +23,17 @@ export default function SinglePackage() {
     useEffect(() => {
         fetchProduct()
     }, []);
+
+    const handleAddToCart = () => {
+        for (const cartItem of cart) {
+            if (cartItem.id === pack.id) {
+                updateQuantity(pack.id, cartItem.quantity + 1)
+                return
+            }
+        }
+        addToCart({id: pack.id, quantity: 1, name: pack.name, price: pack.total_price})
+        return;
+    }
 
     return (<>
         <div className="flex flex-col px-16 py-4 gap-8 bg-primaryLight min-h-screen h-fit justify-between relative">
@@ -35,6 +48,7 @@ export default function SinglePackage() {
                             {replaceEnglishDigits(pack.total_price) + " هزار تومان"}
                         </p>
                         <Button
+                            onClick={handleAddToCart}
                             className="rounded-full w-full bg-primary font-IRANSansXDemiBold mt-4">
                             افزودن به سبد خرید
                         </Button>

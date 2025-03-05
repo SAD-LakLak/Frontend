@@ -9,7 +9,7 @@ import {PackageCart} from "./PackageCart.tsx";
 
 function Cart() {
     const cart = useCart()
-    const [discount, setDiscount] = useState(0.1 * cart.finalPrice)
+    const [discount, setDiscount] = useState(0)
     const [discountCode, setDiscountCode] = useState("")
     const handleCheckDiscountCode = () => {
 
@@ -20,18 +20,18 @@ function Cart() {
 
             <div className={"bg-primaryLight min-h-screen justify-between w-full py-8 px-16 flex flex-col gap-4"}>
                 <Header/>
-                <div className={"flex gap-4"}>
+                <div className={"flex gap-4 h-fit"}>
                     {/*right middle*/}
                     <div className={"flex flex-col w-5/6 min-h-full gap-4"}>
                         {/*status bar*/}
                         <div className={" w-full bg-white rounded-2xl min-h-20"}></div>
                         <div
-                            className={"flex overflow-x-scroll w-full bg-transparent rounded-2xl h-full"}>
-                                {cart.cart.map((element) => <PackageCart cartItem={{...element}}/>)}
+                            className={"flex flex-wrap w-full gap-4 bg-transparent justify-start rounded-2xl h-full"}>
+                            {cart.cart.map((element) => <PackageCart cartItem={{...element}}/>)}
                         </div>
                     </div>
                     {/*left middle*/}
-                    <div className={"flex flex-col w-1/6 justify-between gap-4"}>
+                    <div className={"flex flex-col w-1/6 justify-between gap-4 h-fit "}>
                         {/* prices */}
                         <div
                             className={"flex flex-col items-start bg-white justify-between rounded-2xl gap-4 h-full p-2 px-4"}>

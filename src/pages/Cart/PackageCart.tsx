@@ -43,7 +43,7 @@ export function PackageCart({cartItem}: IPackageCartProps) {
         <>
             {!isRemoved && <div
                 className={"bg-white flex flex-col justify-start gap-4 items-center w-1/4 my-1 rounded-2xl py-4 shadow-md"}>
-                <img className={"w-full px-10 rounded-2xl"} src={pack.image}/>
+                <img className={"w-full px-10 rounded-2xl min-h-52 object-cover"} src={pack.image}/>
                 <p className={"font-IRANSansXDemiBold"}>{replaceEnglishDigits(pack.name)}</p>
                 <p className={"font-IRANSansXRegular"}>{replaceEnglishDigits(`${Math.floor(pack.total_price)} تومان`)}</p>
                 <div className={"flex justify-between items-center"}>

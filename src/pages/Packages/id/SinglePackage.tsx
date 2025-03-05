@@ -69,9 +69,7 @@ export default function SinglePackage() {
                     <div className={"flex w-full flex-col justify-start gap-4 items-start"}>
                         <p className={"font-IRANSansXBold text-2xl"}>{"محتویات"}</p>
                         <ul className={"flex flex-col gap-2 list-disc mr-8"}>
-                            <li>محتویات ملزومات بیمارستانی نوزاد.</li>
-                            <li>محتویات ملزومات بیمارستانی نوزاد.</li>
-                            <li>محتویات ملزومات بیمارستانی نوزاد.</li>
+                            {pack.products && pack.products.map((product, index) => <li key={index}>{product}</li>)}
                         </ul>
                     </div>
                 </div>

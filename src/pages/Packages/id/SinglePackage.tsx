@@ -2,26 +2,21 @@ import Header from "../../../components/Home/Header.tsx";
 import React, {useEffect, useState} from "react";
 import Footer from "../../../components/Home/Footer.tsx";
 import {Package} from "../../../types/Package.ts";
-import axiosInstance from "../../../constants/axiosConfig.ts";
 import {replaceEnglishDigits} from "../../../utils/replacePersianNumbers.ts";
 import {Button} from "@material-tailwind/react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SelectedComment from "../../../components/SelectedComment.tsx";
 import {useCart} from "../../../context/CartContext.tsx";
+import {fetchPackage} from "./Package.ts";
+import {useParams} from "react-router-dom";
 
 export default function SinglePackage() {
-    // const {id} = useParams();
+    const {id} = useParams();
     const [pack, setPack] = useState<Package>({} as Package);
     const {cart, addToCart, updateQuantity} = useCart();
 
-    async function fetchProduct() {
-        const response = await axiosInstance.get(`/packages/?`);
-        console.log(response.data.results[0])
-        setPack(response.data.results[0])
-    }
-
     useEffect(() => {
-        fetchProduct()
+        fetchPackage(Number(id), setPack)
     }, []);
 
     const handleAddToCart = () => {
@@ -45,7 +40,7 @@ export default function SinglePackage() {
                     <div
                         className={"rounded-2xl bg-white shadow-2xl justify-center items-center flex flex-col py-4 px-8"}>
                         <p className={"font-IRANSansXBold text-center"}>
-                            {replaceEnglishDigits(pack.total_price) + " هزار تومان"}
+                            {replaceEnglishDigits(Math.floor(pack.total_price) / 1000) + " هزار تومان"}
                         </p>
                         <Button
                             onClick={handleAddToCart}
@@ -55,11 +50,11 @@ export default function SinglePackage() {
                     </div>
                 </div>
                 {/*left section*/}
-                <div className={"flex flex-col flex-grow h-fit rounded-2xl bg-white shadow-2xl p-4 gap-4"}>
+                <div className={"flex flex-col w-4/5 flex-grow h-fit rounded-2xl bg-white shadow-2xl p-4 gap-4"}>
                     <div className={"flex w-full justify-between items-center"}>
                         <p className={"font-IRANSansXBold text-2xl"}>{pack.name}</p>
                         <div className={"flex flex-row-reverse items-end justify-start gap-2"}>
-                            <img src={"/icons/star.svg"} className={"h-full w-full"}/>
+                            <img src={"/icons/star.svg"} className={"h-full w-full min-h-full min-w-full"}/>
                             <p className={"font-IRANSansXRegular"}>{replaceEnglishDigits(Math.floor(Number(pack.score)))}</p>
                         </div>
                     </div>

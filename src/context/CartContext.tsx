@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useState, useEffect, ReactNode} from "react";
 
-interface CartItem {
+export interface CartItem {
     id: string;
     name: string;
     price: number;
@@ -12,6 +12,7 @@ interface CartContextType {
     count: number;
     finalPrice: number;
     addToCart: (item: CartItem) => void;
+    subtractFromCart: (id: string) => void;
     removeFromCart: (id: string) => void;
     clearCart: () => void;
     updateQuantity: (id: string, quantity: number) => void;
@@ -48,6 +49,16 @@ export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
         });
     };
 
+    const subtractFromCart = (id: string, quantity: number = 1) => {
+        setCart((prevCart) => {
+            return prevCart
+                .map((item) =>
+                    item.id === id ? {...item, quantity: item.quantity - quantity} : item
+                )
+                .filter((item) => item.quantity > 0);
+        });
+    };
+
     const removeFromCart = (id: string) => {
         setCart((prevCart) => prevCart.filter((item) => item.id !== id));
     };
@@ -63,9 +74,21 @@ export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
     };
 
     return (
-        <CartContext.Provider value={{cart, count, finalPrice, addToCart, removeFromCart, clearCart, updateQuantity}}>
+        <CartContext.Provider
+            value={{
+                cart,
+                count,
+                finalPrice,
+                addToCart,
+                subtractFromCart,
+                removeFromCart,
+                clearCart,
+                updateQuantity,
+            }}
+        >
             {children}
         </CartContext.Provider>
+
     );
 };
 

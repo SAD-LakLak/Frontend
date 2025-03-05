@@ -9,7 +9,7 @@ import axiosInstance from "../../constants/axiosConfig.ts";
 import {useState, useEffect} from 'react';
 import PackageCard from "../PackageCard.tsx";
 import {Package} from '../../types/Package.ts';
-import Slider from "@mui/material/Slider";
+import Slider from "react-slick";
 
 const bannerSettings = {
     dots: true,
@@ -34,7 +34,7 @@ const packageSettings = {
     rtl: true,
 };
 
-function Home({children}: { children: React.ReactNode }) {
+function Home() {
     const [recentPackages, setRecentPackages] = useState([]);
 
     useEffect(() => {

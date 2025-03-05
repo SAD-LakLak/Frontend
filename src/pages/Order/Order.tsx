@@ -9,7 +9,8 @@ import ProgressBar from "../../components/ProgressBar.tsx";
 import {Package} from '../../types/Package.ts';
 import {Link} from "react-router-dom";
 import RoomIcon from '@mui/icons-material/Room';
-
+import Select from "react-select";
+import axios from "axios";
 
 function Order() {
     const [items, setItems] = useState<Package[]>([]);
@@ -21,8 +22,61 @@ function Order() {
         free_shipping: false,
     });
 
+    const [formData, setFormData] = useState({
+        name: "",
+        province: "",
+        city: "",
+        address: "",
+        postal_code: "",
+    });
+
+    type Option = {
+        label: string;
+        value: number;
+    };
+
     const [shipping, setShipping] = useState<String>();
     const [payment, setPayment] = useState<String>();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedAddress, setSelectedAddress] = useState(null);
+    const [showAddAddress, setShowAddAddress] = useState(false);
+    const [states, setStates] = useState([]);
+    const [cities, setCities] = useState([]);
+
+    const handleStateChange = (selectedOption) => {
+        setFormData((prev) => ({
+          ...prev,
+          province: selectedOption?.label || "",
+          city: "",
+        }));
+      };
+      
+      const handleCityChange = (selectedOption) => {
+        setFormData((prev) => ({
+          ...prev,
+          city: selectedOption?.label || "",
+        }));
+      };
+
+    useEffect(() => {
+        axios.get("https://iranplacesapi.liara.run/api/Provinces")
+          .then(({ data }) => {
+            setStates(data.map((item => ({ label: item.name, value: item.id }))));
+          })
+          .catch(err => console.error(err));
+      }, []
+    );
+
+    useEffect(() => {
+        if (!formData.province) return;
+        let state = states.find((state: Option) => state.label === formData.province) as Option | undefined;
+        if (state !== undefined)
+        axios.get(`https://iranplacesapi.liara.run/api/Provinces/name/${state.value}/cities`)
+            .then(({ data }) => {
+            setCities(data.map(item => ({ label: item.name, value: item.id })));
+            })
+            .catch(err => console.error(err));
+    }, [formData.province]);
 
     const fetchItems = async (cartToApply) => {
         try {
@@ -41,6 +95,72 @@ function Order() {
         fetchItems;
     }, []);
 
+    const AddressModal = ({ isOpen, onClose, onAddAddress }) => {
+        if (!isOpen) return null;
+        return (
+            <div
+            style={{
+                position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                display: 'flex', justifyContent: 'center', alignItems: 'center',
+                zIndex: 1000,
+            }}
+            onClick={onClose}
+            >
+            <div className="flex bg-white rounded-2xl w-[720px] h-auto p-6" 
+            onClick={(e) => e.stopPropagation()}>
+                {showAddAddress ? (
+                <div className="flex flex-col w-full justify-center items-center gap-4">
+                    <h2 className="font-IRANSansXDemiBold text-center font-bold text-lg mb-2">افزودن آدرس جدید</h2>
+                    <div className="flex flex-col w-full justify-center gap-2">
+                        <input type="text" placeholder="عنوان آدرس"
+                        value={formData.name} onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+                        className="w-full border rounded p-2 mb-2 text-right" />
+                        <div className="flex gap-2">
+                            <Select
+                            options={states}
+                            value={states.find((state: Option) => state.label === formData.province)}
+                            onChange={(selectedOption) => {
+                                handleStateChange;
+                                formData.city = "";
+                            }}
+                            placeholder="استان"
+                            className="flex-1 text-right"
+                            />
+                            <Select
+                            options={cities}
+                            value={cities.find((city: Option) => city.label === formData.city)}
+                            onChange={handleCityChange}
+                            placeholder="شهر"
+                            className="flex-1 text-right"
+                            isDisabled={!formData.province}
+                            />
+                        </div>
+                        <textarea placeholder="آدرس پستی" 
+                        value={formData.address} onChange={(e) => setFormData((prev) => ({ ...prev, address: e.target.value }))}
+                        className="w-full border rounded p-2 my-2 text-right" />
+                        <input type="text" placeholder="کد پستی" 
+                        value={formData.postal_code} onChange={(e) => setFormData((prev) => ({ ...prev, postal_code: e.target.value }))}
+                        className="w-full border rounded p-2 mb-4 text-right" />
+                    </div>
+                    <Button onClick={fetchItems}
+                            size="lg"
+                            className="flex justify-center rounded-full w-fit bg-primary font-IRANSansXDemiBold font-[16px]">
+                        افزودن آدرس
+                    </Button>
+                </div>
+                ) : (
+                <div>
+                    <h3>Select Address</h3>
+                    {/* List of addresses */}
+                    <button onClick={() => setShowAddAddress(true)}>Add New Address</button>
+                </div>
+                )}
+            </div>
+            </div>
+        );
+    };
+
     return (
         <div className="flex flex-col px-16 py-4 gap-8 bg-primaryLight h-auto justify-center relative">
             <Header/>
@@ -57,18 +177,24 @@ function Order() {
                     <div className="flex flex-col bg-white rounded-2xl w-full h-auto items-start py-6 px-8 gap-6">
                         <div className="flex w-full justify-between items-center">
                             <p className="font-IRANSansXDemiBold text-[20px]" dir={"rtl"}>{`انتخاب آدرس`}</p>
-                            <p className="text-primary" dir={"rtl"}>{`تغییر آدرس`}</p>
+                            <button className="text-primary" dir={"rtl"} onClick={() => setIsModalOpen(true)}>تغییر آدرس</button>
                         </div>
                         <div className="flex w-full gap-4 items-center">
                             <RoomIcon className="text-primary"/>
                             <p dir={"rtl"}>{`to-do: customer address`}</p>
                         </div>
+                        <AddressModal
+                        isOpen={isModalOpen}
+                        onClose={() => {
+                            setIsModalOpen(false);
+                            setShowAddAddress(false); // Reset modal state
+                        }}
+                        onAddAddress={(address) => {
+                            setSelectedAddress(address);
+                            setIsModalOpen(false);
+                        }}
+                        />
                     </div>
-                    {/* <div className="grid grid-cols-3 gap-8 w-full h-fit" dir="rtl">
-                        {items.map((item: Package) => (
-                            <Link to={`/packages/${item.id}`}> <CartItem item={item}/></Link>
-                        ))}
-                    </div> */}
 
                     {/* Delivery */}
                     <div className="flex flex-col bg-white rounded-2xl w-full h-auto items-start py-6 px-8 gap-4">

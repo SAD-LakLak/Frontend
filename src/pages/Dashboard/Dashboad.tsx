@@ -16,7 +16,6 @@ function Dashboard() {
         national_code: "",
         birth_date: "",
     });
-
     useEffect(() => {
         const headers = {
             Authorization: `Bearer ${accessToken}`,
@@ -47,7 +46,7 @@ function Dashboard() {
         <>
 
             <div className={"bg-primaryLight min-h-screens h-fit w-full py-8 px-16 flex flex-col gap-8"}>
-                <Header/>
+                <Header />
                 <div className={"flex gap-8"}>
                     {/*right part*/}
                     <DashboardMenu/>

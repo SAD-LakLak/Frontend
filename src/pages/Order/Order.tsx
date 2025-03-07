@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {useAlertNotif} from "../../components/Alert.tsx";
 import {order} from "./order.ts";
 import {useAuth} from "../../context/AuthContext.tsx";
+import axiosInstance from "../../constants/axiosConfig.ts";
 
 function Order() {
     const location = useLocation();
@@ -81,6 +82,31 @@ function Order() {
     const navigate = useNavigate();
     const {accessToken, logout} = useAuth();
 
+    useEffect(() => {
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+        }
+        axiosInstance.get("/user/", {headers})
+            .then((result) => {
+                console.log(result.data)
+                setFormData({
+                    province: result.data.state,
+                    city: result.data.city,
+                    address: result.data.address_line_1,
+                    postal_code: result.data.postal_code,
+                });
+            })
+            .catch(() => {
+                setFormData({
+                    province: "",
+                    city: "",
+                    address: "",
+                    postal_code: "",
+                });
+                console.error("Error fetching user data");
+            });
+    }, [accessToken]);
+    
     const handleOrder = async () => {
         const addressData = {
             address_line_1: formData.address,

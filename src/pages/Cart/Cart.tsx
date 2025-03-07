@@ -25,7 +25,7 @@ function Cart() {
     return (
         <>
 
-            <div className={"bg-primaryLight min-h-screen justify-between w-full py-8 px-16 flex flex-col gap-4"}>
+            <div className={"bg-primaryLight min-h-screen justify-between w-full py-4 px-16 flex flex-col gap-8"}>
                 <Header/>
                 <div className={"flex gap-4 h-fit"}>
                     {/*right middle*/}
@@ -43,7 +43,7 @@ function Cart() {
                     <div className={"flex flex-col w-1/6 justify-between gap-4 h-fit "}>
                         {/* prices */}
                         <div
-                            className={"flex flex-col items-start bg-white justify-between rounded-2xl gap-4 h-full p-2 px-4"}>
+                            className={"flex flex-col items-start bg-white justify-between rounded-2xl gap-4 h-full p-6"}>
                             <div
                                 className={"flex flex-col font-IRANSansXRegular justify-between items-start gap-2"}>
                                 <p>{`مجموع هزینه‌ی کالاها (${replaceEnglishDigits(cart.count)})`}</p>
@@ -76,7 +76,7 @@ function Cart() {
                         </div>
                         {/*discount*/}
                         <div
-                            className={"flex flex-col bg-white rounded-2xl gap-2 p-2 px-4 justify-between items-center"}>
+                            className={"flex flex-col bg-white rounded-2xl gap-2 p-6 justify-between items-center"}>
                             <Input
                                 label="کد تخفیف"
                                 type="text"

@@ -48,12 +48,10 @@ export const order = async (
     axiosInstance
         .post("/addresses/", body, {headers})
         .then((res) => {
-            console.log(res);
             createOrderData.address = res.data.id;
             return axiosInstance.post("/orders/create/", createOrderData, {headers});
         })
         .then((res) => {
-            console.log(res);
             navigate(`/orderSubmitted`);
         })
         .catch((err) => {

@@ -26,8 +26,6 @@ export const resetPassword = async (signInData: IResetPasswordBody, showNotifica
         .then((res) => {
             notifConfig.notifType = "success";
             notifConfig.text = "لینک بازیابی رمز عبور با موفقیت ارسال شد!";
-            console.log("res.data:\n");
-            console.log(res.data);
         })
         .catch((err) => {
             notifConfig.notifType = "error";

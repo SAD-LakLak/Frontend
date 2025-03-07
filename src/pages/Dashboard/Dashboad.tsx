@@ -22,7 +22,6 @@ function Dashboard() {
         }
         axiosInstance.get("/user/", {headers})
             .then((result) => {
-                console.log(result.data)
                 setUserData({
                     username: result.data.username,
                     phone_number: result.data.phone_number,

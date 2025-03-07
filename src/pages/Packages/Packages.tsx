@@ -62,7 +62,6 @@ function Packages() {
     };
 
     const applyFilters = () => {
-        console.log("Applying filters:", filters);
         setAppliedFilters({...filters});
         fetchPackages(filters);
     };

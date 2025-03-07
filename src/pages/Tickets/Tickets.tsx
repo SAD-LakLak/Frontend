@@ -31,7 +31,7 @@ export default function Tickets() {
                 <DashboardMenu/>
                 {/*left part*/}
                 <div className={"flex w-full flex-col gap-4 rounded-2xl bg-white py-8 px-8"}>
-                    <div className={"flex justify-between"}>
+                    <div className={"flex justify-between items-center mb-4"}>
                         <p className={"font-IRANSansXDemiBold text-2xl text-onBackground"}>تاریخچه‌ی تیکت‌ها</p>
                         <Link to={"/tickets/create"}>
                         <Button className={"bg-primary font-IRANSansXMedium px-12 rounded-full shadow-xl"}>
@@ -42,12 +42,12 @@ export default function Tickets() {
                     <div className={"flex flex-col w-full h-fit gap-4 overflow-y-scroll no-scrollbar items-center"}>
                         {tickets.length > 0 ? (
                             tickets.map((ticket) => (
-                                <Link to={`/tickets/${ticket.id}`}>
+                                <Link to={`/tickets/${ticket.id}`} className={"w-full "}>
                                     <TicketRowCard ticket={ticket}/>
                                 </Link>
                             ))
                         ) : (
-                            <p className="mt-16 font-IRANSansXMedium">هنوز تیکتی ثبت نکرده‌اید.</p>
+                            <p className="mt-12 font-IRANSansXMedium">هنوز تیکتی ثبت نکرده‌اید.</p>
                         )}
                     </div>
                 </div>

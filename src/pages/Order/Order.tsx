@@ -2,23 +2,25 @@ import React from "react";
 import Header from "../../components/Home/Header.tsx";
 import Footer from "../../components/Home/Footer.tsx";
 import {Button} from "@material-tailwind/react";
-import {replaceEnglishDigits} from "../../utils/replacePersianNumbers.ts";
-import axiosInstance from "../../constants/axiosConfig.ts";
+import {replaceEnglishDigits, replacePersianNumbers} from "../../utils/replacePersianNumbers.ts";
 import {useState, useEffect} from 'react';
 import ProgressBar from "../../components/ProgressBar.tsx";
-import {Package} from '../../types/Package.ts';
 import Select from "react-select";
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import {useAlertNotif} from "../../components/Alert.tsx";
+import {order} from "./order.ts";
+import {useAuth} from "../../context/AuthContext.tsx";
 
 function Order() {
-    const [items, setItems] = useState<Package[]>([]);
-    const [cart, setCart] = useState({
-        items: [],
-        cart_cost: 0,
-        shipping_cost: 0,
-        total_cost: 0,
+    const location = useLocation();
+    const { cart, finalPrice, discount, free_shipping } = location.state || {
+        cart: [],
+        finalPrice: 0,
+        discount: 0,
         free_shipping: false,
-    });
+    };
+    const cartPrice = (finalPrice || 0) * (1 - (discount || 0)/100);
 
     const [formData, setFormData] = useState({
         province: "",
@@ -32,11 +34,13 @@ function Order() {
         value: number;
     };
 
-    const [shipping, setShipping] = useState<String>();
-    const [payment, setPayment] = useState<String>();
+    const [shipping, setShipping] = useState<[string, number]>();
+    const [shippingType, shippingCost] = shipping || ["", 0];
+    const [payment, setPayment] = useState<string>();
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
     const [checked, setChecked] = useState<boolean>(true);
+    const [note, setNote] = useState<string>("");
     
     const handleStateChange = (selectedOption) => {
         setFormData((prev) => ({
@@ -73,25 +77,38 @@ function Order() {
             .catch(err => console.error(err));
     }, [formData.province]);
 
-    const fetchItems = async (cartToApply) => {
-        try {
-            const query = Object.entries(cartToApply)
-                .filter(([_, value]) => value !== '')
-                .map(([key, value]) => `${key}=${value}`)
-                .join('&');
-            const response = await axiosInstance.get(`/items/?${query}`);
-            setItems(response.data.results);
-        } catch (error) {
-            console.error('Error fetching items:', error);
-        }
-    };
+    const {alertConfig, showNotification} = useAlertNotif();
+    const navigate = useNavigate();
+    const {accessToken, logout} = useAuth();
 
     const handleOrder = async () => {
-        
+        const addressData = {
+            address_line_1: formData.address,
+            city: formData.city,
+            state: formData.province,
+            postal_code: replacePersianNumbers(formData.postal_code),
+            country: "Iran",
+            phone_number: "",
+            is_default: checked,
+            is_deleted: !checked,
+        }
+
+        const orderData = {
+            address: 0,
+            discount_amount: discount,
+            discount: null,
+            tax_amount: 0,
+            shipping_fee: shippingCost,
+            note: note,
+            packages: cart,
+        };
+
+        if (accessToken) {
+            await order(orderData, addressData, showNotification, accessToken, navigate);
+        }
     }
 
     useEffect(() => {
-        fetchItems;
     }, []);
 
     return (
@@ -164,8 +181,8 @@ function Order() {
                                 <input 
                                     type="radio" 
                                     className="accent-primary" 
-                                    checked={shipping === "post"} 
-                                    onChange={() => setShipping("post")} 
+                                    checked={shippingType === "post"} 
+                                    onChange={() => setShipping(["post", 50000])} 
                                 />
                                 <p dir={"rtl"}>{`ارسال با پست پیشتاز (تحویل ۴ تا ۷ روز کاری دیگر)`}</p>
                             </div>
@@ -176,8 +193,8 @@ function Order() {
                                 <input 
                                     type="radio" 
                                     className="accent-primary" 
-                                    checked={shipping === "bike"} 
-                                    onChange={() => setShipping("bike")} 
+                                    checked={shippingType === "bike"} 
+                                    onChange={() => setShipping(["bike", 70000])} 
                                 />
                                 <p dir={"rtl"}>{`ارسال با پیک لک‌لک - ویژه شهر تهران (تحویل ۲ تا ۴ روز کاری دیگر، بازه‌ی زمانی ۱۸ تا ۲۱)`}</p>
                             </div>
@@ -207,18 +224,30 @@ function Order() {
                             <p dir={"rtl"}>{`درگاه پرداخت اینترنتی`}</p>
                         </div>
                     </div>
+
+                    {/* Note */}
+                    <div className="flex flex-col bg-white rounded-2xl w-full h-auto items-start py-6 px-8 gap-4">
+                        <p className="font-IRANSansXDemiBold text-[20px]" dir={"rtl"}>{`توضیحات`}</p>
+                        <textarea
+                            placeholder="اگر سفارش شما نیاز به توضیحات خاصی دارد، در اینجا بنویسید."
+                            rows={4}
+                            value={note || ""}
+                            onChange={(e) => setNote(e.target.value)}
+                            className="w-full border rounded p-2 my-2 text-right focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue"
+                        />
+                    </div>
                 </div>
 
                 {/* Left Bar */}
                 <div className="w-[264px] h-fit flex flex-col gap-2 bg-white rounded-2xl p-6 items-start">
                     <p dir={"rtl"}>{`مجموع سبد خرید`}</p>
-                    <p className="mb-2" dir={"rtl"}>{replaceEnglishDigits(cart.cart_cost) + " تومان"}</p>
+                    <p className="mb-2" dir={"rtl"}>{replaceEnglishDigits(cartPrice) + " تومان"}</p>
                     <p dir={"rtl"}>{`هزینه ارسال`}</p>
-                    <p className="mb-2" dir={"rtl"}>{cart.free_shipping ? "رایگان!" : replaceEnglishDigits(cart.shipping_cost)  + " تومان"}</p>
+                    <p className="mb-2" dir={"rtl"}>{free_shipping ? "رایگان!" : replaceEnglishDigits(shippingCost || 0)  + " تومان"}</p>
                     <p dir={"rtl"}>{`قابل پرداخت`}</p>
-                    <p className="mb-2" dir={"rtl"}>{replaceEnglishDigits(cart.total_cost)  + " تومان"}</p>
+                    <p className="mb-2" dir={"rtl"}>{replaceEnglishDigits(cartPrice + (shippingCost || 0))  + " تومان"}</p>
                     <div className={"flex w-full justify-center"}>
-                        <Button onClick={handleOrder()}
+                        <Button onClick={handleOrder}
                                 className="rounded-full w-fit bg-primary font-IRANSansXDemiBold mt-4"
                                 disabled={!formData.province || !formData.city || formData.address.length < 10 || formData.postal_code.length < 10 || !shipping || !payment}>
                             پرداخت و ثبت سفارش

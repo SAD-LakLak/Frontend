@@ -44,8 +44,11 @@ const App: React.FC = () => {
                             path="/dashboard" element={<ProtectedRoute> <Dashboard/> </ProtectedRoute>
                         }/>
                         <Route
-                            path="/cart" element={<ProtectedRoute> <Cart/> </ProtectedRoute>
-                        }/>
+                            path="/cart" element={<ProtectedRoute> <Cart/> </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/submitOrder" element={<ProtectedRoute> <Order/> </ProtectedRoute>}
+                        />
                     </Routes>
                 </Router>
             </CartProvider>

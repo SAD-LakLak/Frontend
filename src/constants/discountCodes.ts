@@ -21,7 +21,11 @@ export const discountCodes: DiscountCode[] = [
         percentage: 40,
         free_shipping: true
     },
-
+    {
+        code: "laklakbox5",
+        percentage: 50,
+        free_shipping: true
+    },
 ]
 
 

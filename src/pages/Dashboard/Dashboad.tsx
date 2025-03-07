@@ -51,11 +51,11 @@ function Dashboard() {
                     {/*right part*/}
                     <DashboardMenu/>
                     {/*left part*/}
-                    <div className={"flex w-4/5 flex-col gap-4 rounded-2xl"}>
+                    <div className={"flex w-full flex-col gap-4 rounded-2xl"}>
 
                         {/*top part*/}
                         <div className={"flex w-full flex-col gap-8 rounded-2xl bg-white p-8 items-end"}>
-                            <p className={"w-full font-IRANSansXBold text-3xl "} dir={"rtl"}>اطلاعات حساب کاربری</p>
+                            <p className={"w-full font-IRANSansXDemiBold text-2xl "} dir={"rtl"}>اطلاعات حساب کاربری</p>
                             <div className={"flex w-full justify-end gap-8"}>
                                 <div className={"flex flex-col w-[30%]"}>
                                     <div

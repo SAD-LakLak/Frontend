@@ -8,20 +8,14 @@ function DashboardMenu() {
     const navigate = useNavigate()
 
     return (
-        <div className={"flex w-1/4 h-fit flex-col gap-4 rounded-2xl bg-white items-center justify-start py-8"}>
+        <div className={"flex w-[304px] h-fit flex-col gap-4 rounded-2xl bg-white items-center justify-start py-8"}>
             <div className={"flex flex-col gap-4 w-full items-center"}>
                 <Button onClick={() => {
                     navigate("/dashboard")
                 }} className="rounded-full w-[80%] bg-primary font-IRANSansXDemiBold">حساب کاربری</Button>
-                <Button onClick={() => {
-                    navigate("/packages")
-                }} className="rounded-full w-[80%] bg-primary font-IRANSansXDemiBold">پکیج‌ها</Button>
-                <Button disabled={true} onClick={() => {
-                    navigate("/products/createProduct")
-                }} className="rounded-full w-[80%] bg-primary font-IRANSansXDemiBold">سفارش‌ها</Button>
                 <Button disabled={true} onClick={() => {
                     navigate("/orders")
-                }} className="rounded-full w-[80%] bg-primary font-IRANSansXDemiBold">تاریخچه پرداخت‌ها</Button>
+                }} className="rounded-full w-[80%] bg-primary font-IRANSansXDemiBold">سفارش‌ها</Button>
                 <Button onClick={() => {
                     navigate("/tickets")
                 }} className="rounded-full w-[80%] bg-primary font-IRANSansXDemiBold">تیکت‌ها</Button>

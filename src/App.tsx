@@ -16,6 +16,7 @@ import CreateTicket from "./pages/Tickets/CreateTicket.tsx";
 import {CartProvider} from "./context/CartContext.tsx";
 import Cart from "./pages/Cart/Cart.tsx";
 import Order from "./pages/Order/Order.tsx";
+import OrderSuccess from "./pages/OrderSuccess/OrderSuccess.tsx";
 
 
 const App: React.FC = () => {
@@ -48,6 +49,9 @@ const App: React.FC = () => {
                         />
                         <Route
                             path="/submitOrder" element={<ProtectedRoute> <Order/> </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/orderSubmitted" element={<ProtectedRoute> <OrderSuccess/> </ProtectedRoute>}
                         />
                     </Routes>
                 </Router>

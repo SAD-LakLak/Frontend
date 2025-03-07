@@ -54,7 +54,7 @@ export const order = async (
         })
         .then((res) => {
             console.log(res);
-            navigate(`/orderFinalized/${res.data.id}`);
+            navigate(`/orderSubmitted`);
         })
         .catch((err) => {
             notifConfig.notifType = "error";

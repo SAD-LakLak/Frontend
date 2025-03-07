@@ -8,6 +8,7 @@ import {fetchSingleTicket} from "../tickets.ts";
 import {Link, useParams} from "react-router-dom";
 import Footer from "../../../components/Home/Footer.tsx";
 import Header from "../../../components/Home/Header.tsx";
+import {formatPrice} from "../../../utils/formatPrice.ts";
 
 
 export default function SingleTicket() {
@@ -32,7 +33,7 @@ export default function SingleTicket() {
                 <DashboardMenu/>
                 {/*left part*/}
                 <div className={"flex w-4/5 flex-col gap-4 rounded-2xl bg-white py-8 px-8"}>
-                    <p className={"font-IRANSansXDemiBold text-onBackground text-2xl"}>{replaceEnglishDigits(ticket.title)}</p>
+                    <p className={"font-IRANSansXDemiBold text-onBackground text-2xl"}>{formatPrice(ticket.title)}</p>
                     <div className={"flex w-full justify-end gap-2 items-center mt-4"}>
                         <Button disabled={true}
                                 className={"bg-accent py-2 text-center flex items-center font-IRANSansXRegular rounded-2xl"}>{replaceEnglishDigits(ticket.category)}</Button>

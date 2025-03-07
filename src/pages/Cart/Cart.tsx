@@ -1,27 +1,27 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Header from "../../components/Home/Header.tsx";
 import Footer from "../../components/Home/Footer.tsx";
 import {useCart} from "../../context/CartContext.tsx";
 import {replaceEnglishDigits} from "../../utils/replacePersianNumbers.ts";
 import {Button, Input} from "@material-tailwind/react";
 import {PackageCart} from "./PackageCart.tsx";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import ProgressBar from "../../components/ProgressBar.tsx";
+import {getDiscountCode} from "../../constants/discountCodes.ts";
+import {formatPrice} from "../../utils/formatPrice.ts";
 
 function Cart() {
     const navigate = useNavigate();
     const cart = useCart()
-    const [discount, setDiscount] = useState(0)
     const [discountCode, setDiscountCode] = useState("")
+
     const handleCheckDiscountCode = () => {
-        if (discountCode == "freeshipping100"){
-            cart.free_shipping = true;
-        }
-        if (discountCode == "firstorder"){
-            cart.discount = 10;
-        }
+        const disCode = getDiscountCode(discountCode);
+        cart.setDiscount(disCode.percentage)
+        cart.setFreeShipping(disCode.free_shipping)
     }
-    console.log(cart.cart[0])
+
+
     return (
         <>
 
@@ -46,18 +46,18 @@ function Cart() {
                             className={"flex flex-col items-start bg-white justify-between rounded-2xl gap-4 h-full p-6"}>
                             <div
                                 className={"flex flex-col font-IRANSansXRegular justify-between items-start gap-2"}>
-                                <p>{`مجموع هزینه‌ی کالاها (${replaceEnglishDigits(cart.count)})`}</p>
-                                <p>{`${replaceEnglishDigits(cart.finalPrice)} تومان`}</p>
+                                <p>{`مجموع هزینه‌ی کالاها (${formatPrice(cart.count)})`}</p>
+                                <p>{`${formatPrice(cart.finalPrice)} تومان`}</p>
                             </div>
                             <div
                                 className={"flex flex-col font-IRANSansXRegular justify-between items-start gap-2"}>
                                 <p>{`مجموع تخفیف`}</p>
-                                <p>{`${replaceEnglishDigits(discount)} تومان`}</p>
+                                <p>{`${formatPrice(cart.discount * cart.finalPrice / 100)} تومان`}</p>
                             </div>
                             <div
                                 className={"flex flex-col font-IRANSansXRegular font-bold justify-between items-start gap-2"}>
                                 <p>{`مجموع سبد خرید`}</p>
-                                <p>{`${replaceEnglishDigits(cart.finalPrice - discount)} تومان`}</p>
+                                <p>{`${formatPrice(cart.finalPrice - cart.discount * cart.finalPrice / 100)} تومان`}</p>
                             </div>
                             <div className={"flex w-full justify-center"}>
                                 <Button
@@ -80,6 +80,7 @@ function Cart() {
                             <Input
                                 label="کد تخفیف"
                                 type="text"
+                                dir={"ltr"}
                                 value={discountCode}
                                 onChange={(e) => setDiscountCode(e.target.value)}
                                 color="blue"

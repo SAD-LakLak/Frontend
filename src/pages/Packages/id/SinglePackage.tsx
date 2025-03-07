@@ -9,6 +9,7 @@ import SelectedComment from "../../../components/SelectedComment.tsx";
 import {useCart} from "../../../context/CartContext.tsx";
 import {fetchPackage} from "./Package.ts";
 import {useParams} from "react-router-dom";
+import {formatPrice} from "../../../utils/formatPrice.ts";
 
 export default function SinglePackage() {
     const {id} = useParams();
@@ -55,12 +56,12 @@ export default function SinglePackage() {
                         <p className={"font-IRANSansXBold text-2xl"}>{pack.name}</p>
                         <div className={"flex flex-row-reverse items-end justify-start gap-2"}>
                             <img src={"/icons/star.svg"} className={"h-1/2 w-1/2 min-h-1/2 min-w-1/2"}/>
-                            <p className={"font-IRANSansXRegular"}>{replaceEnglishDigits(Math.floor(Number(pack.score)))}</p>
+                            <p className={"font-IRANSansXRegular"}>{formatPrice(Math.floor(Number(pack.score)))}</p>
                         </div>
                     </div>
                     <div className={"flex w-full justify-between items-center"}>
                         <p>{pack.summary}</p>
-                        <p className={"font-IRANSansXRegular"}>{"(" + replaceEnglishDigits(11) + " نظر)"}</p>
+                        <p className={"font-IRANSansXRegular"}>{"(" + formatPrice(11) + " نظر)"}</p>
                     </div>
                     <div className={"flex w-full flex-col justify-start gap-4 items-start mt-4"}>
                         <p className={"font-IRANSansXDemiBold text-2xl"}>{"توضیحات"}</p>

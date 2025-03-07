@@ -12,6 +12,7 @@ import {useAlertNotif} from "../../components/Alert.tsx";
 import {order} from "./order.ts";
 import {useAuth} from "../../context/AuthContext.tsx";
 import axiosInstance from "../../constants/axiosConfig.ts";
+import {formatPrice} from "../../utils/formatPrice.ts";
 
 function Order() {
     const location = useLocation();
@@ -271,7 +272,7 @@ function Order() {
                     <p dir={"rtl"}>{`هزینه ارسال`}</p>
                     <p className="mb-2" dir={"rtl"}>{free_shipping ? "رایگان!" : replaceEnglishDigits(shippingCost || 0)  + " تومان"}</p>
                     <p dir={"rtl"}>{`قابل پرداخت`}</p>
-                    <p className="mb-2" dir={"rtl"}>{replaceEnglishDigits(cartPrice + (shippingCost || 0))  + " تومان"}</p>
+                    <p className="mb-2" dir={"rtl"}>{replaceEnglishDigits(formatPrice(cartPrice + (shippingCost || 0)))  + " تومان"}</p>
                     <div className={"flex w-full justify-center"}>
                         <Button onClick={handleOrder}
                                 className="rounded-full w-fit bg-primary font-IRANSansXDemiBold mt-4"

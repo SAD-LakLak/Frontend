@@ -1,9 +1,15 @@
 import React from "react";
 import {ShoppingCartOutlined} from "@mui/icons-material";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import {Link} from "react-router-dom";
+import {useAuth} from "../../context/AuthContext.tsx";
+import {Badge} from "@material-tailwind/react";
+import {useCart} from "../../context/CartContext.tsx";
 
 function Header() {
+    const {isAuthenticated} = useAuth()
+    const {count} = useCart()
     return (
         <div className={"flex justify-between h-24 bg-white rounded-2xl px-8"}>
             <div className={"flex flex-1 justify-start items-center mx-8"}>
@@ -17,13 +23,26 @@ function Header() {
                 <img src={"/images/logo.png"} className={"h-full"}/>
             </Link>
             <div className={"flex flex-1 justify-end items-center gap-2 mx-8"}>
-                <Link to="/login" className={" gap-2 flex items-center"}>
+                {!isAuthenticated && <Link to="/login" className={" gap-2 flex items-center"}>
                     <p className={"font-IRANSansXBold text-primary"}>
                         ورود/ثبت نام
                     </p>
                     <AccountCircleOutlinedIcon fontSize={"large"} className="text-primary"/>
+                </Link>}
+                {isAuthenticated && <Link to="/dashboard" className={" gap-2 flex items-center"}>
+                    <p className={"font-IRANSansXBold text-primary"}>
+                        پنل کاربری
+                    </p>
+                    <DashboardIcon fontSize={"large"} className="text-primary"/>
+                </Link>}
+                <Link to="/cart" className={" gap-2 flex items-center"}>
+                    {/*<p className={"font-IRANSansXBold text-primary"}>*/}
+                    {/*    سبد خرید*/}
+                    {/*</p>*/}
+                    <Badge content={count} placement="top-start" color={'orange'} className={`${count > 0 ? "" : "opacity-0"}`}>
+                        <ShoppingCartOutlined fontSize={"large"} className="text-primary"/>
+                    </Badge>
                 </Link>
-                <ShoppingCartOutlined fontSize={"large"} className="text-primary"/>
             </div>
         </div>
     );

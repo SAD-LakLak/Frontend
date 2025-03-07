@@ -9,4 +9,5 @@ export interface Package {
     description: string,
     score: string,
     target_group: string,
+    products: string[]
 }

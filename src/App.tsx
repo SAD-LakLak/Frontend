@@ -13,34 +13,49 @@ import Dashboard from "./pages/Dashboard/Dashboad.tsx";
 import Tickets from "./pages/Tickets/Tickets.tsx";
 import SingleTicket from "./pages/Tickets/id/SingleTickets.tsx";
 import CreateTicket from "./pages/Tickets/CreateTicket.tsx";
+import {CartProvider} from "./context/CartContext.tsx";
+import Cart from "./pages/Cart/Cart.tsx";
+import Order from "./pages/Order/Order.tsx";
+import OrderSuccess from "./pages/OrderSuccess/OrderSuccess.tsx";
 
 
 const App: React.FC = () => {
     return (
         <AuthProvider>
-            <Router>
-                <Routes>
-                    <Route path="/" element={<LandingPage/>}/>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/signUp" element={<SignUp/>}/>
-                    <Route path="/resetPassword" element={<ResetPassword/>}/>
-                    <Route path="/changePassword" element={<ChangePassword/>}/>
-                    <Route path="/tickets" element={
-                        <ProtectedRoute> <Tickets/> </ProtectedRoute>
-                    }/>
-                    <Route path="/tickets/:id" element={
-                        <ProtectedRoute> <SingleTicket/> </ProtectedRoute>
-                    }/>
-                    <Route path="/tickets/create" element={
-                        <ProtectedRoute> <CreateTicket/> </ProtectedRoute>
-                    }/>
-                    <Route path="/packages" element={<Packages/>}/>
-                    <Route path="/packages/:id" element={<SinglePackage/>}/>
-                    <Route
-                        path="/dashboard" element={<ProtectedRoute> <Dashboard/> </ProtectedRoute>
-                    }/>
-                </Routes>
-            </Router>
+            <CartProvider>
+                <Router>
+                    <Routes>
+                        <Route path="/" element={<LandingPage/>}/>
+                        <Route path="/login" element={<Login/>}/>
+                        <Route path="/signUp" element={<SignUp/>}/>
+                        <Route path="/resetPassword" element={<ResetPassword/>}/>
+                        <Route path="/changePassword" element={<ChangePassword/>}/>
+                        <Route path="/tickets" element={
+                            <ProtectedRoute> <Tickets/> </ProtectedRoute>
+                        }/>
+                        <Route path="/tickets/:id" element={
+                            <ProtectedRoute> <SingleTicket/> </ProtectedRoute>
+                        }/>
+                        <Route path="/tickets/create" element={
+                            <ProtectedRoute> <CreateTicket/> </ProtectedRoute>
+                        }/>
+                        <Route path="/packages" element={<Packages/>}/>
+                        <Route path="/packages/:id" element={<SinglePackage/>}/>
+                        <Route
+                            path="/dashboard" element={<ProtectedRoute> <Dashboard/> </ProtectedRoute>
+                        }/>
+                        <Route
+                            path="/cart" element={<ProtectedRoute> <Cart/> </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/submitOrder" element={<ProtectedRoute> <Order/> </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/orderSubmitted" element={<ProtectedRoute> <OrderSuccess/> </ProtectedRoute>}
+                        />
+                    </Routes>
+                </Router>
+            </CartProvider>
         </AuthProvider>
     );
 };

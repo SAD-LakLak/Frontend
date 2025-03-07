@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "./Header.tsx";
 import Footer from "./Footer.tsx";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {Link} from "react-router-dom";
@@ -10,6 +9,7 @@ import axiosInstance from "../../constants/axiosConfig.ts";
 import {useState, useEffect} from 'react';
 import PackageCard from "../PackageCard.tsx";
 import {Package} from '../../types/Package.ts';
+import Slider from "react-slick";
 
 const bannerSettings = {
     dots: true,
@@ -34,7 +34,7 @@ const packageSettings = {
     rtl: true,
 };
 
-function Home({children}: { children: React.ReactNode }) {
+function Home() {
     const [recentPackages, setRecentPackages] = useState([]);
 
     useEffect(() => {
@@ -59,16 +59,16 @@ function Home({children}: { children: React.ReactNode }) {
             <Slider {...bannerSettings}>
                 <Link to="/packages">
                     <div>
-                    <img className="flex-grow h-full object-cover rounded-2xl"
-                    src="/images/banner1.png"
-                    alt="Banner 1"/>
+                        <img className="flex-grow h-full object-cover rounded-2xl"
+                             src="/images/banner1.png"
+                             alt="Banner 1"/>
                     </div>
                 </Link>
                 <Link to="http://localhost:5174/">
                     <div>
-                    <img className="flex-grow h-full object-cover rounded-2xl"
-                    src="/images/banner2.png"
-                    alt="Banner 2"/>
+                        <img className="flex-grow h-full object-cover rounded-2xl"
+                             src="/images/banner2.png"
+                             alt="Banner 2"/>
                     </div>
                 </Link>
             </Slider>
@@ -79,16 +79,18 @@ function Home({children}: { children: React.ReactNode }) {
                     <p className="font-IRANSansXBold text-[44px] text-wrap text-right text-white">
                         جدیدترین بسته‌های لک‌لک
                     </p>
-                    <a href="/packages" className="mt-auto">
-                        <Button className="font-IRANSansXBold text-[14px] rounded-[35px] px-6 py-4 bg-primary text-white">
+                    <Link to={'/packages'} className="mt-auto">
+                        <Button
+                            className="font-IRANSansXBold text-[14px] rounded-[35px] px-6 py-4 bg-primary text-white">
                             مشاهده‌ی همه
                         </Button>
-                    </a>
+                    </Link>
                 </div>
-
                 <Slider {...packageSettings} className="w-3/4 h-[384px] justify-between flex-inline">
                     {recentPackages.slice(0, 6).map((pack: Package) => (
-                        <PackageCard pack={pack}/>
+                        <Link to={`/packages/${pack.id}`} key={pack.id}>
+                            <PackageCard pack={pack}/>
+                        </Link>
                     ))}
                 </Slider>
             </div>

@@ -11,6 +11,10 @@ interface CartContextType {
     cart: CartItem[];
     count: number;
     finalPrice: number;
+    discount: number;
+    setDiscount: (value: number) => void;
+    free_shipping: boolean;
+    setFreeShipping: (value: boolean) => void;
     addToCart: (item: CartItem) => void;
     subtractFromCart: (id: string) => void;
     removeFromCart: (id: string) => void;
@@ -26,15 +30,31 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
     const initialCart: CartItem[] = JSON.parse(localStorage.getItem("cart") || "[]");
+    const initialDiscount: number = parseFloat(localStorage.getItem("discount") || "0");
+    const initialFreeShipping: boolean = JSON.parse(localStorage.getItem("free_shipping") || "false");
+
     const [cart, setCart] = useState<CartItem[]>(initialCart);
+    const [discount, setDiscount] = useState<number>(initialDiscount);
+    const [free_shipping, setFreeShipping] = useState<boolean>(initialFreeShipping);
 
     useEffect(() => {
         localStorage.setItem("cart", JSON.stringify(cart));
     }, [cart]);
 
+    useEffect(() => {
+        localStorage.setItem("discount", discount.toString());
+    }, [discount]);
+
+    useEffect(() => {
+        localStorage.setItem("free_shipping", JSON.stringify(free_shipping));
+    }, [free_shipping]);
+
     const count = cart.length;
 
-    const finalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    const finalPrice = Math.max(
+        cart.reduce((total, item) => total + item.price * item.quantity, 0),
+        0
+    );
 
     const addToCart = (item: CartItem) => {
         setCart((prevCart) => {
@@ -50,13 +70,13 @@ export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
     };
 
     const subtractFromCart = (id: string, quantity: number = 1) => {
-        setCart((prevCart) => {
-            return prevCart
+        setCart((prevCart) =>
+            prevCart
                 .map((item) =>
                     item.id === id ? {...item, quantity: item.quantity - quantity} : item
                 )
-                .filter((item) => item.quantity > 0);
-        });
+                .filter((item) => item.quantity > 0)
+        );
     };
 
     const removeFromCart = (id: string) => {
@@ -71,6 +91,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
 
     const clearCart = () => {
         setCart([]);
+        setDiscount(0);
+        setFreeShipping(false);
     };
 
     return (
@@ -79,6 +101,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
                 cart,
                 count,
                 finalPrice,
+                discount,
+                setDiscount,
+                free_shipping,
+                setFreeShipping,
                 addToCart,
                 subtractFromCart,
                 removeFromCart,
@@ -88,7 +114,6 @@ export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
         >
             {children}
         </CartContext.Provider>
-
     );
 };
 

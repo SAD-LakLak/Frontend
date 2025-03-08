@@ -20,7 +20,6 @@ export const signIn = async (
         notifConfig.text = "ورود با موفقیت انجام شد!";
         return {success: true, data: res.data, config: notifConfig};
     } catch (e) {
-        console.log(e.message);
         notifConfig.notifType = "error";
         notifConfig.text = "مشکلی پیش آمده است.";
         return {success: false, error: e, config: notifConfig};

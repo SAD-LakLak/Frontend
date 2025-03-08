@@ -38,7 +38,6 @@ export default function CreateTicket() {
             config.notifType = "error";
             config.text = "ثبت تیکت موفقیت آمیز نبود."
             showNotification(config)
-            console.log(e)
         });
 
     };
@@ -115,7 +114,7 @@ export default function CreateTicket() {
                     </div>
                 </form>
             </div>
-        <Footer/>
+            <Footer/>
         </div>
     );
 

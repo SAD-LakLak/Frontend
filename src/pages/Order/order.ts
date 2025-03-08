@@ -1,6 +1,7 @@
 import axiosInstance from "../../constants/axiosConfig.ts";
 import {NotifConfig} from "../../components/Alert.tsx";
 import {useNavigate} from "react-router-dom";
+import {Package} from "../../types/Package.ts";
 
 export interface Item {
     id: string;
@@ -48,12 +49,14 @@ export const order = async (
     axiosInstance
         .post("/addresses/", body, {headers})
         .then((res) => {
-            console.log(res);
             createOrderData.address = res.data.id;
+            for (const pack of createOrderData.packages) {
+                pack.package = pack.id
+                pack.amount = pack.quantity
+            }
             return axiosInstance.post("/orders/create/", createOrderData, {headers});
         })
         .then((res) => {
-            console.log(res);
             navigate(`/orderSubmitted`);
         })
         .catch((err) => {

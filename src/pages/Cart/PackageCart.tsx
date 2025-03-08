@@ -5,6 +5,7 @@ import {replaceEnglishDigits} from "../../utils/replacePersianNumbers.ts";
 import {Add, Remove} from "@mui/icons-material"
 import {CartItem, useCart} from "../../context/CartContext.tsx";
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
+import {formatPrice} from "../../utils/formatPrice.ts";
 
 interface IPackageCartProps {
     cartItem: CartItem
@@ -16,7 +17,7 @@ export function PackageCart({cartItem}: IPackageCartProps) {
     const [isRemoved, setIsRemoved] = useState(false)
 
     useEffect(() => {
-        fetchPackage(cartItem.id,setPack)
+        fetchPackage(cartItem.id, setPack)
     }, []);
 
     const handleAdd = () => {
@@ -45,7 +46,7 @@ export function PackageCart({cartItem}: IPackageCartProps) {
                 className={"bg-white flex flex-col justify-start gap-4 items-center w-1/4 my-1 rounded-2xl py-4 shadow-md"}>
                 <img className={"w-full px-10 rounded-2xl min-h-52 object-cover"} src={pack.image}/>
                 <p className={"font-IRANSansXDemiBold"}>{replaceEnglishDigits(pack.name)}</p>
-                <p className={"font-IRANSansXRegular"}>{replaceEnglishDigits(`${Math.floor(pack.total_price)} تومان`)}</p>
+                <p className={"font-IRANSansXRegular"}>{`${formatPrice(Math.floor(pack.total_price))} تومان`}</p>
                 <div className={"flex justify-between items-center"}>
                     <div className={"flex justify-start gap-1  items-center"}>
                         <Add onClick={handleAdd} color={"primary"} className={"hover:cursor-pointer"}/>

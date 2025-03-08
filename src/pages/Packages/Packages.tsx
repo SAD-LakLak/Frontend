@@ -19,6 +19,7 @@ import PaginationItem from '@mui/material/PaginationItem';
 import Stack from '@mui/material/Stack';
 import Checkbox from '@mui/material/Checkbox';
 import {Link} from "react-router-dom";
+import {formatPrice} from "../../utils/formatPrice.ts";
 
 function Packages() {
     const [packs, setPackages] = useState<Package[]>([]);
@@ -61,7 +62,6 @@ function Packages() {
     };
 
     const applyFilters = () => {
-        console.log("Applying filters:", filters);
         setAppliedFilters({...filters});
         fetchPackages(filters);
     };
@@ -145,7 +145,7 @@ function Packages() {
             {/* Packages */}
             <div className="flex justify-between gap-8 w-full">
                 <div className="w-[312px] h-fit flex flex-col gap-4 bg-white rounded-[35px] py-8 px-6 items-start">
-                    <p dir={"rtl"}>{`${replaceEnglishDigits(packs.length)} محصول`}</p>
+                    <p dir={"rtl"}>{`${formatPrice(packs.length)} محصول`}</p>
                     <div className={"relative w-full max-w-lg"}> {/* Search Bar */}
                         <SearchIcon
                             onClick={applyFilters}
@@ -218,7 +218,7 @@ function Packages() {
                             min={0}
                             max={5000000}
                             step={100000}
-                            valueLabelFormat={(value) => `${replaceEnglishDigits(value)} تومان`}
+                            valueLabelFormat={(value) => `${formatPrice(value)} تومان`}
                         />
                     </div>
                     <div className={"flex-column items-end"}>

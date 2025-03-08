@@ -1,6 +1,6 @@
 import React from 'react';
 import {Package} from '../types/Package.ts';
-import {replaceEnglishDigits} from "../utils/replacePersianNumbers.ts";
+import {formatPrice} from "../utils/formatPrice.ts";
 
 interface PackageCardProps {
     pack: Package;
@@ -15,7 +15,7 @@ const PackageCard: React.FC<PackageCardProps> = ({pack}) => {
             <p className=" font-IRANSansXDemiBold text-onBackground text-[16px] mt-6 mb-4" dir="rtl">{pack.name}</p>
             <p className=" font-IRANSansXRegular text-onBackground my-2" dir="rtl">{pack.summary}</p>
             <p className=" font-IRANSansXRegular text-onBackground mt-2" dir="rtl">
-                {replaceEnglishDigits(Math.floor(pack.total_price)/1000) + " هزار تومان "}
+                {formatPrice(Math.floor(pack.total_price)/1000) + " هزار تومان "}
             </p>
         </div>
     );

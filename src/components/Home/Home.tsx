@@ -45,7 +45,6 @@ function Home() {
         try {
             const response = await axiosInstance.get(`/packages/?ordering=-creation_date`);
             setRecentPackages(response.data.results);
-            console.log(recentPackages);
         } catch (error) {
             console.error('Error fetching packages:', error);
         }

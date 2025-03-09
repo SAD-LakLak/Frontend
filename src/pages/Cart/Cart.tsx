@@ -18,6 +18,7 @@ function Cart() {
     const handleCheckDiscountCode = () => {
         const disCode = getDiscountCode(discountCode);
         cart.setDiscount(disCode.percentage)
+        cart.setDiscountCode(disCode.code)
         cart.setFreeShipping(disCode.free_shipping)
     }
 
@@ -53,6 +54,7 @@ function Cart() {
                                 className={"flex flex-col font-IRANSansXRegular justify-between items-start gap-2"}>
                                 <p>{`مجموع تخفیف`}</p>
                                 <p>{`${formatPrice(cart.discount * cart.finalPrice / 100)} تومان`}</p>
+
                             </div>
                             <div
                                 className={"flex flex-col font-IRANSansXRegular font-bold justify-between items-start gap-2"}>
@@ -87,6 +89,8 @@ function Cart() {
                                 variant={"standard"}
                                 className="font-IRANSansXRegular"
                             />
+                            {cart.discount_code &&
+                                <p className={"text-xs"}>{`کد تخفیف فعلی: ${cart.discount_code}`}</p>}
                             <div className={"flex w-full justify-center"}>
                                 <Button
                                     onClick={handleCheckDiscountCode}

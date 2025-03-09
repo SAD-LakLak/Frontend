@@ -15,6 +15,8 @@ interface CartContextType {
     setDiscount: (value: number) => void;
     free_shipping: boolean;
     setFreeShipping: (value: boolean) => void;
+    discount_code: string;
+    setDiscountCode: (code: string) => void;
     addToCart: (item: CartItem) => void;
     subtractFromCart: (id: string) => void;
     removeFromCart: (id: string) => void;
@@ -32,10 +34,12 @@ export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
     const initialCart: CartItem[] = JSON.parse(localStorage.getItem("cart") || "[]");
     const initialDiscount: number = parseFloat(localStorage.getItem("discount") || "0");
     const initialFreeShipping: boolean = JSON.parse(localStorage.getItem("free_shipping") || "false");
+    const initialDiscountCode: string = localStorage.getItem("discount_code") || "";
 
     const [cart, setCart] = useState<CartItem[]>(initialCart);
     const [discount, setDiscount] = useState<number>(initialDiscount);
     const [free_shipping, setFreeShipping] = useState<boolean>(initialFreeShipping);
+    const [discount_code, setDiscountCode] = useState<string>(initialDiscountCode);
 
     useEffect(() => {
         localStorage.setItem("cart", JSON.stringify(cart));
@@ -48,6 +52,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
     useEffect(() => {
         localStorage.setItem("free_shipping", JSON.stringify(free_shipping));
     }, [free_shipping]);
+
+    useEffect(() => {
+        localStorage.setItem("discount_code", discount_code);
+    }, [discount_code]);
 
     const count = cart.length;
 
@@ -93,6 +101,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
         setCart([]);
         setDiscount(0);
         setFreeShipping(false);
+        setDiscountCode("");
     };
 
     return (
@@ -105,6 +114,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({children}) => {
                 setDiscount,
                 free_shipping,
                 setFreeShipping,
+                discount_code,
+                setDiscountCode,
                 addToCart,
                 subtractFromCart,
                 removeFromCart,

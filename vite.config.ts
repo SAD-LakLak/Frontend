@@ -8,9 +8,9 @@ export default defineConfig({
     server: {
         host: '0.0.0.0',
         port: 5173,
-        allowedHosts: ['laklakbox.ir'],
+        allowedHosts: ['laklakbox.ir', 'customer.laklakbox.ir'],
         hmr: {
-            host: 'laklakbox.ir'
+            host: 'customer.laklakbox.ir'
         }
     },
 });

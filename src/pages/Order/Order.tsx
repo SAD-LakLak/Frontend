@@ -13,6 +13,7 @@ import {order} from "./order.ts";
 import {useAuth} from "../../context/AuthContext.tsx";
 import axiosInstance from "../../constants/axiosConfig.ts";
 import {formatPrice} from "../../utils/formatPrice.ts";
+import {useCart} from "../../context/CartContext.tsx";
 
 function Order() {
     const location = useLocation();
@@ -24,6 +25,7 @@ function Order() {
     };
     const cartPrice = (finalPrice || 0) * (1 - (discount || 0) / 100);
 
+    const CART = useCart();
     const [formData, setFormData] = useState({
         province: "",
         city: "",
@@ -128,7 +130,7 @@ function Order() {
             note: note,
             packages: cart,
         };
-
+        CART.clearCart()
         await order(orderData, addressData, showNotification, accessToken as string, navigate);
     }
 

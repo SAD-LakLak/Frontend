@@ -13,7 +13,7 @@ function DashboardMenu() {
                 <Button onClick={() => {
                     navigate("/dashboard")
                 }} className="rounded-full w-[80%] bg-primary font-IRANSansXDemiBold">حساب کاربری</Button>
-                <Button disabled={true} onClick={() => {
+                <Button onClick={() => {
                     navigate("/orders")
                 }} className="rounded-full w-[80%] bg-primary font-IRANSansXDemiBold">سفارش‌ها</Button>
                 <Button onClick={() => {

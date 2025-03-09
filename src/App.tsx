@@ -16,6 +16,8 @@ import CreateTicket from "./pages/Tickets/CreateTicket.tsx";
 import {CartProvider} from "./context/CartContext.tsx";
 import Cart from "./pages/Cart/Cart.tsx";
 import Order from "./pages/Order/Order.tsx";
+import Orders from "./pages/Orders/Orders.tsx";
+import SingleOrder from "./pages/Orders/id/SingleOrder.tsx";
 import OrderSuccess from "./pages/OrderSuccess/OrderSuccess.tsx";
 
 
@@ -53,6 +55,12 @@ const App: React.FC = () => {
                         <Route
                             path="/orderSubmitted" element={<ProtectedRoute> <OrderSuccess/> </ProtectedRoute>}
                         />
+                        <Route
+                            path="/orders" element={<ProtectedRoute> <Orders/> </ProtectedRoute>}
+                        />
+                        <Route path="/orders/:id" element={
+                            <ProtectedRoute> <SingleOrder/> </ProtectedRoute>
+                        }/>
                     </Routes>
                 </Router>
             </CartProvider>

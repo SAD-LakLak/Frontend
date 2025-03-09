@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import DashboardMenu from "../../components/DashboardMenu.tsx";
 import {useAuth} from "../../context/AuthContext.tsx";
-import {Button} from "@material-tailwind/react";
 import OrderRow from "../../components/OrderRow.tsx";
 import {Order} from "../../types/Order.ts";
 import {fetchAllOrders} from "./orders.ts";
@@ -17,20 +16,7 @@ export default function Orders() {
     useEffect(() => {
         const getOrders = async () => {
             fetchAllOrders(accessToken as string).then((data) => {
-                const sampleOrder: Order = {
-                    id: 4,
-                    address: 123,
-                    discount: 0,
-                    discount_amount: 0,
-                    tax_amount: 0,
-                    shipping_fee: 0,
-                    note: "Sample order",
-                    packages: [
-                        { package: 1, price: 100, amount: 1 },
-                    ],
-                };
-                const updatedOrders = [sampleOrder, ...data];
-                setOrders(updatedOrders);
+                setOrders(data);
             });
         };
         getOrders();
@@ -45,15 +31,20 @@ export default function Orders() {
                 <DashboardMenu/>
                 {/*left part*/}
                 <div className={"flex w-full flex-col gap-4 rounded-2xl bg-white py-8 px-8"}>
-                    <div className={"flex justify-between"}>
+                    <div className={"flex justify-between mb-4"}>
                         <p className={"font-IRANSansXDemiBold text-2xl text-onBackground"}>تاریخچه‌ی سفارش‌ها</p>
                     </div>
 
                     <div className={"flex flex-col w-full h-fit gap-4 overflow-y-scroll no-scrollbar items-center"}>
                         {orders.length > 0 ? (
                             orders.map((order) => (
-                                <Link to={`/orders/${order.id}`}>
-                                    <OrderRow order={order}/>
+                                <Link 
+                                    to={`/orders/${order.id}`} 
+                                    state={{ order }}
+                                    className={"flex w-full"} 
+                                    key={order.id}
+                                >
+                                    <OrderRow order={order} />
                                 </Link>
                             ))
                         ) : (

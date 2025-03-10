@@ -10,6 +10,7 @@ import {useState, useEffect} from 'react';
 import PackageCard from "../PackageCard.tsx";
 import {Package} from '../../types/Package.ts';
 import Slider from "react-slick";
+import ModelViewer from "../ModelViewer.tsx";
 
 const bannerSettings = {
     dots: true,
@@ -63,7 +64,7 @@ function Home() {
                              alt="Banner 1"/>
                     </div>
                 </Link>
-                <Link to="http://localhost:5174/">
+                <Link to="https://supplier.laklakbox.ir/">
                     <div>
                         <img className="flex-grow h-full object-cover rounded-2xl"
                              src="/images/banner2.png"
@@ -71,6 +72,19 @@ function Home() {
                     </div>
                 </Link>
             </Slider>
+
+            <div
+                className="w-full h-fit min-h-96 flex items-center justify-center  bg-no-repeat bg-"
+                style={{
+                    backgroundImage: "url('/images/bg.png')",
+                    backgroundSize: "contain",
+
+                    backgroundPosition: "center"
+                }}
+            >
+                <ModelViewer/>
+            </div>
+
 
             {/* Recent Packages */}
             <div className="flex gap-8 w-full h-[384px] mt-4">

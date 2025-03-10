@@ -1,3 +1,8 @@
+export interface Review {
+    rating: string,
+    comment: string,
+}
+
 export interface Package {
     id: string,
     name: string,
@@ -9,5 +14,6 @@ export interface Package {
     description: string,
     score: string,
     target_group: string,
-    products: string[]
+    products: string[],
+    reviews: Review[],
 }

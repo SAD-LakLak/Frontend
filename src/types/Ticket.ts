@@ -9,3 +9,22 @@ export interface Ticket {
     priority: "Low" | "Medium" | "High";
     status: "Open" | "In Progress" | "Closed";
 }
+
+export function getCategory(category: string): string {
+    const categoryMap: { [key: string]: string } = {
+        "General": "عمومی",
+        "Order Issue": "ثبت و پیگیری سفارش",
+        "Technical": "فنی",
+        "Payment Issue": "پرداخت",
+    };
+    return categoryMap[category] || "دسته‌بندی ناشناخته";
+}
+
+export function getStatus(status: string): string {
+    const statusMap: { [key: string]: string } = {
+        "Open": "باز",
+        "In Progress": "در حال بررسی",
+        "Closed": "بسته",
+    };
+    return statusMap[status] || "وضعیت ناشناخته";
+}

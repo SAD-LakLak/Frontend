@@ -1,7 +1,7 @@
 import {useAuth} from "../../../context/AuthContext.tsx";
 import React, {useEffect, useState} from "react";
 import DashboardMenu from "../../../components/DashboardMenu.tsx";
-import {Ticket} from "../../../types/Ticket.ts";
+import {getCategory, getStatus, Ticket} from "../../../types/Ticket.ts";
 import {Button} from "@material-tailwind/react";
 import {replaceEnglishDigits} from "../../../utils/replacePersianNumbers.ts";
 import {fetchSingleTicket} from "../tickets.ts";
@@ -33,12 +33,12 @@ export default function SingleTicket() {
                 <DashboardMenu/>
                 {/*left part*/}
                 <div className={"flex w-4/5 flex-col gap-4 rounded-2xl bg-white py-8 px-8"}>
-                    <p className={"font-IRANSansXDemiBold text-onBackground text-2xl"}>{formatPrice(ticket.title)}</p>
+                    <p className={"font-IRANSansXDemiBold text-onBackground text-2xl"}>{replaceEnglishDigits(ticket.title)}</p>
                     <div className={"flex w-full justify-end gap-2 items-center mt-4"}>
                         <Button disabled={true}
-                                className={"bg-accent py-2 text-center flex items-center font-IRANSansXRegular rounded-2xl"}>{replaceEnglishDigits(ticket.category)}</Button>
+                                className={"bg-accent py-2 text-center flex items-center font-IRANSansXRegular rounded-2xl"}>{getCategory(ticket.category)}</Button>
                         <Button disabled={true}
-                                className={"bg-primary py-2 text-center flex items-center font-IRANSansXRegular rounded-2xl"}>{replaceEnglishDigits(ticket.status)}</Button>
+                                className={"bg-primary py-2 text-center flex items-center font-IRANSansXRegular rounded-2xl"}>{getStatus(ticket.status)}</Button>
                     </div>
                     <div className={"flex w-full flex-col justify-start gap-4 mt-8 items-start"}>
                         <p className={"font-IRANSansXDemiBold text-2xl"}>{"توضیحات"}</p>

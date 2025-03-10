@@ -73,11 +73,10 @@ export default function CreateTicket() {
                         variant="standard"
                         className="font-IRANSansXRegular text-right appearance-none"
                     >
-                        <Option value="Order Issue">Order Issue</Option>
-                        <Option value="Payment Issue">Payment Issue</Option>
-                        <Option value="Technical">Technical</Option>
-                        <Option value="General">General</Option>
-                        <Option value="Other">Other</Option>
+                        <Option value="Order Issue">ثبت و پیگیری سفارش</Option>
+                        <Option value="Payment Issue">پرداخت</Option>
+                        <Option value="Technical">فنی</Option>
+                        <Option value="General">عمومی</Option>
                     </Select>
 
 

@@ -74,7 +74,7 @@ function Home() {
             </Slider>
 
             <div
-                className="w-full h-fit min-h-96 flex items-center justify-center  bg-no-repeat"
+                className="w-full h-fit min-h-screen flex items-center justify-center  bg-no-repeat"
                 style={{
                     backgroundImage: "url('/images/bg.png')",
                     backgroundSize: "contain",

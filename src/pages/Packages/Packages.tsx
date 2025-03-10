@@ -33,12 +33,12 @@ function Packages() {
         search: '',
         target_group: '',
         page: 1,
-        page_size: 9,
+        page_size: 6,
     });
 
     const [appliedFilters, setAppliedFilters] = useState({});
 
-    const [totalPages, setTotalPages] = useState(1);
+    const [totalPages, setTotalPages] = useState(3);
 
     const fetchPackages = async (filtersToApply) => {
         try {
@@ -46,7 +46,7 @@ function Packages() {
                 .filter(([_, value]) => value !== '')
                 .map(([key, value]) => `${key}=${value}`)
                 .join('&');
-            const response = await axiosInstance.get(`/packages/?${query}`);
+            const response = await axiosInstance.get(`/packages/?page=${filters.page}&${query}`);
             setPackages(response.data.results);
             setTotalPages(Math.ceil(response.data.count / filters.page_size));
         } catch (error) {
@@ -129,7 +129,7 @@ function Packages() {
 
     useEffect(() => {
         fetchPackages(appliedFilters);
-    }, [appliedFilters]);
+    }, [appliedFilters, filters.page]);
 
     return (
         <div className="flex flex-col px-16 py-4 gap-8 bg-primaryLight h-auto justify-center relative">
@@ -284,6 +284,11 @@ function Packages() {
             <Stack spacing={2} className="flex w-full items-end mt-8">
                 <Pagination count={totalPages}
                             color="primary"
+                            onChange={(event, value) => {
+                                console.log(`Page changed to: ${value}`);
+                                setFilters({...filters, page: value});
+                            }}
+                            page={filters.page}
                             renderItem={(item) => (
                                 <PaginationItem
                                     slots={{previous: ArrowForwardIcon, next: ArrowBackIcon}}

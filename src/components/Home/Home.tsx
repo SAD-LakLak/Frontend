@@ -74,12 +74,12 @@ function Home() {
             </Slider>
 
             <div
-                className="w-full h-fit min-h-96 flex items-center justify-center  bg-no-repeat bg-"
+                className="w-full h-fit min-h-96 flex items-center justify-center  bg-no-repeat"
                 style={{
                     backgroundImage: "url('/images/bg.png')",
                     backgroundSize: "contain",
-
-                    backgroundPosition: "center"
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat"
                 }}
             >
                 <ModelViewer/>
